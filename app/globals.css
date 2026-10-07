@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  padding: 40px;
+  background: #0b0b0b;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  font-size: 48px;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 18px;
+  color: #c9a227;
+}
