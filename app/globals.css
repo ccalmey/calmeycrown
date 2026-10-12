@@ -1,17 +1,787 @@
+
+/* =========================================
+   CALMEY CROWN — GLOBAL STYLES
+   Responsive header, smart navigation,
+   saved theme and command palette.
+   ========================================= */
+
+
+/* 1. GLOBAL FOUNDATION */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
 body {
   margin: 0;
-  padding: 40px;
-  background: #0b0b0b;
-  color: white;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.title {
-  font-size: 48px;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+
+/* 2. THEME COLOURS
+   Change these variables to refine the whole site.
+   ========================================= */
+
+.site-shell {
+  --page-bg: #0b0f12;
+  --page-text: #f5f3ef;
+  --header-bg: rgba(10, 14, 18, 0.96);
+  --header-border: rgba(255, 255, 255, 0.07);
+  --nav-text: #e3e0dc;
+  --gold: #f8b83f;
+  --button-text: #19140a;
+
+  min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--page-text);
+
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.site-shell.theme-light {
+  --page-bg: #f7f2e8;
+  --page-text: #242018;
+  --header-bg: rgba(247, 242, 232, 0.97);
+  --header-border: rgba(36, 32, 24, 0.14);
+  --nav-text: #403a30;
+  --gold: #a86b08;
+  --button-text: #19140a;
+}
+
+
+/* 3. HEADER — DESKTOP
+   Brand | flexible navigation | connect | search | theme
+   ========================================= */
+
+.site-header {
+  position: relative;
+  z-index: 20;
+
+  width: 100%;
+  min-height: 64px;
+  padding: 0 4.8%;
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  column-gap: 24px;
+
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+}
+
+
+/* 4. CROWN LOGO AND BRAND NAME */
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  min-width: 0;
+}
+
+.crown-logo {
+  display: block;
+  flex-shrink: 0;
+  width: 34px;
+  height: 32px;
+  color: var(--gold);
+}
+
+.brand-name {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+
+/* 5. DESKTOP NAVIGATION */
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  gap: clamp(16px, 2.2vw, 30px);
+}
+
+.nav-link {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 64px;
+
+  color: var(--nav-text);
+  font-size: 12px;
+  white-space: nowrap;
+
+  transition: color 180ms ease;
+}
+
+.nav-link:hover {
+  color: var(--gold);
+}
+
+/* The active section gets the blueprint's gold underline. */
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gold);
+}
+
+
+/* 6. LET'S CONNECT BUTTON */
+
+.connect-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 19px;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ffd16a, #f5ad2e);
+  color: var(--button-text);
+
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+.connect-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+
+/* 7. HEADER ICON BUTTONS
+   Shared appearance for menu, search and theme.
+   ========================================= */
+
+.menu-toggle,
+.palette-trigger,
+.theme-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+
+  color: var(--page-text);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+/* All header icons share consistent sizing. */
+
+.menu-toggle svg,
+.palette-trigger svg,
+.theme-icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.menu-toggle:hover,
+.palette-trigger:hover,
+.theme-icon:hover {
+  color: var(--gold);
+  background: rgba(248, 184, 63, 0.1);
+}
+
+/* Desktop does not need the hamburger button. */
+
+.menu-toggle {
+  display: none;
+}
+
+/* The mobile dropdown is hidden until the menu opens. */
+
+.mobile-nav {
+  display: none;
+}
+
+
+/* 8. KEYBOARD FOCUS
+   Helps visitors using a keyboard see where they are.
+   ========================================= */
+
+.brand:focus-visible,
+.nav-link:focus-visible,
+.mobile-nav-link:focus-visible,
+.connect-button:focus-visible,
+.menu-toggle:focus-visible,
+.palette-trigger:focus-visible,
+.theme-icon:focus-visible,
+.palette-close:focus-visible,
+.palette-command:focus-visible,
+.palette-search input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+
+/* =========================================
+   9. COMMAND PALETTE
+   A hidden control centre opened on demand.
+   ========================================= */
+
+/* Darkens the page behind the palette. */
+
+.palette-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: min(14vh, 110px) 20px 24px;
+
+  background: rgba(0, 0, 0, 0.64);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  overflow-y: auto;
+}
+
+/* Main search window. */
+
+.command-palette {
+  width: 100%;
+  max-width: 560px;
+  max-height: min(620px, 78vh);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: var(--page-bg);
+  color: var(--page-text);
+
+  border: 1px solid var(--header-border);
+  border-radius: 16px;
+
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+}
+
+/* Heading and close button. */
+
+.palette-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 20px 20px 16px;
+}
+
+.palette-heading h2 {
+  margin: 0 0 5px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.palette-heading p {
   margin: 0;
+  color: var(--nav-text);
+  opacity: 0.75;
+  font-size: 12px;
 }
 
-.tagline {
-  font-size: 18px;
-  color: #c9a227;
+.palette-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+
+  color: var(--page-text);
+  background: transparent;
+  border: 1px solid var(--header-border);
+  border-radius: 8px;
+
+  font-size: 23px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.palette-close:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+
+/* Search input and magnifying-glass icon. */
+
+.palette-search {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  margin: 0 16px 12px;
+  padding: 0 12px;
+  min-height: 46px;
+
+  border: 1px solid var(--header-border);
+  border-radius: 10px;
+
+  background: var(--header-bg);
+}
+
+.palette-search svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.palette-search input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+
+  color: var(--page-text);
+  background: transparent;
+  border: 0;
+  outline: none;
+
+  font-size: 13px;
+}
+
+.palette-search input::placeholder {
+  color: var(--nav-text);
+  opacity: 0.6;
+}
+
+.palette-search input:focus-visible {
+  outline: none;
+}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 3px 6px;
+
+  color: var(--nav-text);
+  background: var(--header-bg);
+  border: 1px solid var(--header-border);
+  border-radius: 5px;
+
+  font-family: inherit;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+
+/* Search results area. */
+
+.palette-results {
+  padding: 0 8px 8px;
+  overflow-y: auto;
+}
+
+.palette-command {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  padding: 11px 12px;
+
+  color: var(--page-text);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 9px;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.palette-command:hover:not(:disabled),
+.palette-command:focus-visible:not(:disabled) {
+  background: rgba(248, 184, 63, 0.08);
+  border-color: rgba(248, 184, 63, 0.22);
+}
+
+.palette-command:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Small marker at the left of each command. */
+
+.command-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+
+  color: var(--gold);
+  background: var(--header-bg);
+  border: 1px solid var(--header-border);
+  border-radius: 8px;
+
+  font-size: 15px;
+}
+
+/* Command title and description. */
+
+.command-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.command-label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.command-description {
+  color: var(--nav-text);
+  opacity: 0.72;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.command-status {
+  color: var(--gold);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* Message shown when nothing matches the search. */
+
+.palette-empty {
+  margin: 0;
+  padding: 28px 14px;
+
+  color: var(--nav-text);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Keyboard hints at the bottom of the window. */
+
+.palette-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  padding: 12px 18px;
+
+  color: var(--nav-text);
+  border-top: 1px solid var(--header-border);
+
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+
+/* =========================================
+   10. TABLET LAYOUT
+   Navigation moves to its own row.
+   ========================================= */
+
+@media (max-width: 1050px) {
+  .site-header {
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    column-gap: 14px;
+    padding: 12px 4%;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .desktop-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0 24px;
+  }
+
+  .nav-link {
+    min-height: 36px;
+  }
+
+  .connect-button {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .palette-trigger {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .theme-icon {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: end;
+  }
+}
+
+
+/* =========================================
+   11. MOBILE LAYOUT
+   Crown | menu | connect | search | theme
+   All five controls share one row.
+   ========================================= */
+
+@media (max-width: 700px) {
+  .site-header {
+    min-height: 60px;
+    padding: 10px 4%;
+
+    grid-template-columns: auto auto minmax(0, 1fr) auto auto;
+    column-gap: 6px;
+    align-items: center;
+  }
+
+  /* Only show the crown, not the written brand name. */
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+    gap: 0;
+  }
+
+  .brand-name {
+    display: none;
+  }
+
+  .crown-logo {
+    width: 28px;
+    height: 30px;
+  }
+
+  /* Replace the desktop navigation with the menu button. */
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  /* Keep contact, search and theme on the same row. */
+
+  .connect-button {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+
+    padding: 10px 11px;
+    font-size: 10px;
+  }
+
+  .palette-trigger {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .theme-icon {
+    grid-column: 5;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  /* Mobile navigation opens underneath the header. */
+
+  .mobile-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    padding: 8px 4% 14px;
+
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--header-border);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
+  }
+
+  .mobile-nav.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 13px 10px;
+
+    color: var(--nav-text);
+    font-size: 13px;
+
+    border-bottom: 1px solid var(--header-border);
+  }
+
+  .mobile-nav-link:last-child {
+    border-bottom: 0;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link.active {
+    color: var(--gold);
+  }
+
+  /* Give the palette a little more room on phones. */
+
+  .palette-backdrop {
+    padding: 8vh 12px 16px;
+  }
+
+  .command-palette {
+    max-height: 84vh;
+    border-radius: 13px;
+  }
+
+  .palette-heading {
+    padding: 17px 16px 14px;
+  }
+
+  .palette-search {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+}
+
+
+/* 12. VERY NARROW PHONES */
+
+@media (max-width: 350px) {
+  .site-header {
+    padding-left: 2%;
+    padding-right: 2%;
+    column-gap: 3px;
+  }
+
+  .crown-logo {
+    width: 24px;
+    height: 26px;
+  }
+
+  .menu-toggle,
+  .palette-trigger,
+  .theme-icon {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+  }
+
+  .menu-toggle svg,
+  .palette-trigger svg,
+  .theme-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .connect-button {
+    padding: 9px 7px;
+    font-size: 9px;
+  }
+}
+
+
+/* 13. ACCESSIBILITY: REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
