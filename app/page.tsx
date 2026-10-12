@@ -252,9 +252,12 @@ export default function Home() {
     window.history.replaceState(null, "", href);
   }
 
-  // A command is available only when its target exists.
+  // Keep this check safe during server rendering.
+  // Only mark sections as available once their matching HTML IDs exist.
+  const availableSectionHrefs = new Set(["#home"]);
+
   function isDestinationAvailable(href: string) {
-    return document.querySelector(href) !== null;
+    return availableSectionHrefs.has(href);
   }
 
 
@@ -463,6 +466,7 @@ export default function Home() {
         >
           {isLightMode ? (
             <svg
+              key="moon"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -471,26 +475,24 @@ export default function Home() {
               strokeLinejoin="round"
               aria-hidden="true"
             >
-              <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" />
+               <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" />
+
             </svg>
           ) : (
             <svg
+              key="sun"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.7"
               strokeLinecap="round"
+              strokeLinejoin="round"
               aria-hidden="true"
             >
-              <circle cx="12" cy="12" r="3.5" />
-              <path
-                d="M12 2v2 M12 20v2 M4.93 4.93l1.42 1.42
-                   M17.65 17.65l1.42 1.42 M2 12h2 M20 12h2
-                   M4.93 19.07l1.42-1.42
-                   M17.65 6.35l1.42-1.42"
-              />
-            </svg>
-          )}
+               <circle cx="12" cy="12" r="3.5" />
+                <path d="M12 2v2 M12 20v2 M4.93 4.93l1.42 1.42 M17.65 17.65l1.42 1.42 M2 12h2 M20 12h2 M4.93 19.07l1.42-1.42 M17.65 6.35l1.42-1.42" />
+              </svg>
+            )}
         </button>
 
 
