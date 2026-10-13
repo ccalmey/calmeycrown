@@ -785,3 +785,215 @@ kbd {
     animation-iteration-count: 1 !important;
   }
 }
+
+
+
+/* MISSION 03: HERO SECTION */
+
+.hero-section {
+  position: relative;
+  isolation: isolate;
+  min-height: 680px;
+  padding: 110px 8% 100px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  
+  background:
+    linear-gradient(
+      90deg,
+      rgba(11, 15, 18, 0.96) 0%,
+      rgba(11, 15, 18, 0.82) 48%,
+      rgba(11, 15, 18, 0.28) 100%
+    ),
+    url("/images/hero-space.jpg") center center / cover no-repeat;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+
+.hero-eyebrow {
+  margin: 0 0 24px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.8;
+}
+
+.hero-eyebrow span {
+  padding: 0 5px;
+}
+
+.hero-section h1 {
+  max-width: 800px;
+  margin: 0 0 24px;
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.hero-name {
+  color: var(--gold);
+}
+
+.hero-description {
+  max-width: 620px;
+  margin: 0 0 18px;
+  color: var(--nav-text);
+  font-size: 1.15rem;
+  line-height: 1.9;
+}
+
+.hero-motto {
+  margin: 0 0 32px;
+  color: var(--page-text);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 23px;
+  border-radius: 4px;
+  background: var(--gold);
+  color: var(--button-text);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.hero-cta:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.hero-cta span {
+  font-size: 1.25rem;
+}
+
+.hero-side-statement {
+  position: absolute;
+  z-index: 1;
+  right: 7%;
+  top: 35%;
+  margin: 0;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.6rem);
+  font-style: italic;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+.hero-signature {
+  position: absolute;
+  z-index: 2;
+  right: 7%;
+  bottom: 38px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hero-crown {
+  width: 34px;
+  height: 29px;
+  flex: 0 0 34px;
+  display: block;
+  overflow: hidden;
+}
+
+.hero-dot {
+  opacity: 0.65;
+}
+
+@media (max-width: 700px) {
+  .hero-section {
+    min-height: 650px;
+    padding: 85px 7% 120px;
+    align-items: flex-start;
+  }
+
+  .hero-section h1 {
+    font-size: clamp(2.6rem, 11vw, 4rem);
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-side-statement {
+    top: auto;
+    right: 7%;
+    bottom: 95px;
+    font-size: 1.35rem;
+  }
+
+  .hero-signature {
+    right: auto;
+    left: 7%;
+    bottom: 32px;
+    gap: 6px;
+    font-size: 0.72rem;
+  }
+
+  .hero-crown {
+    width: 27px;
+    height: 24px;
+    flex-basis: 27px;
+  }
+}
+
+
+
+/* MISSION 03C: HERO LIGHT-MODE CONTRAST */
+
+.site-shell.theme-light .hero-section {
+  color: #fffaf0;
+}
+
+.site-shell.theme-light .hero-section .hero-eyebrow {
+  color: #ffd166;
+}
+
+.site-shell.theme-light .hero-section h1 {
+  color: #fffaf0;
+}
+
+.site-shell.theme-light .hero-section .hero-name {
+  color: #ffd166;
+}
+
+.site-shell.theme-light .hero-section .hero-description {
+  color: #ffffff;
+}
+
+.site-shell.theme-light .hero-section .hero-motto {
+  color: #fffaf0;
+  opacity: 1;
+}
+
+.site-shell.theme-light .hero-section .hero-side-statement {
+  color: #ffd166;
+  opacity: 1;
+}
+
+.site-shell.theme-light .hero-section .hero-signature {
+  color: #ffd166;
+}
+
+.site-shell.theme-light .hero-section .hero-cta {
+  background: #ffd166;
+  color: #19140a;
+}

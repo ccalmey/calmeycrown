@@ -638,6 +638,73 @@ export default function Home() {
       )}
 
       {/* The hero and content sections come next. */}
+      
+      {/* ==========================================
+          MISSION 03: HERO / INTRODUCTION
+          ========================================== */}
+
+      <section className="hero-section" aria-labelledby="hero-title">
+        <div className="hero-content">
+          <p className="hero-eyebrow">
+            CREATIVE <span>•</span> TECH <span>•</span> STORYTELLER <span>•</span> EXPLORER
+          </p>
+
+          <h1 id="hero-title">
+            Hi, I’m <span className="hero-name">Calmey Crown</span>
+          </h1>
+
+          <p className="hero-description">
+            I explore ideas, build solutions, create stories and chase
+            opportunities across tech, media, space and beyond.
+          </p>
+
+          <p className="hero-motto">
+            Part dreamer. Part builder. Always learning.
+          </p>
+
+          <a className="hero-cta" href="#about">
+            Explore My World <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <p className="hero-side-statement">
+          Different
+          <br />
+          interests.
+          <br />
+          One mission.
+        </p>
+
+        <div className="hero-signature" aria-label="Space, Cybersecurity and STEM">
+          <svg
+            className="hero-crown"
+            viewBox="0 0 48 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 10 L15 22 L24 3 L33 22 L43 10 L38 34 L10 34 Z"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 28 H38 M13 37 H35"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+          </svg>
+
+          <span>Space</span>
+          <span className="hero-dot">•</span>
+          <span>Cybersecurity</span>
+          <span className="hero-dot">•</span>
+          <span>STEM</span>
+        </div>
+      </section>
+
     </main>
   );
 }
