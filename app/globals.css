@@ -1265,14 +1265,20 @@ kbd {
 
 /* CUSTOM SVG SKILL ICONS */
 
+
+/* SKILLS ICONS — TARGETED CONTRAST */
+
 .skill-icon {
   display: block;
   width: 40px;
   height: 40px;
   flex: 0 0 40px;
   margin-bottom: 9px;
-  color: #252a2d;
+  color: #f7a707;
+  stroke: currentColor;
+  stroke-width: 1.9;
 }
+
 
 .skill-card h3 {
   margin: 0;
