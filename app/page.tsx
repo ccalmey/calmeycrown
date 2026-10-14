@@ -3,6 +3,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import SkillIcon from "@/components/SkillIcon";
+
 /*
   ==========================================
   CALMEY CROWN — NAVIGATION CONFIGURATION
@@ -702,6 +704,139 @@ export default function Home() {
           <span>Cybersecurity</span>
           <span className="hero-dot">•</span>
           <span>STEM</span>
+        </div>
+      </section>
+      
+      {/* MISSION 04: ABOUT ME + SKILLS & INTERESTS */}
+
+
+      <section className="about-skills-section" id="about">
+        {/* LEFT PANEL: ABOUT ME */}
+        <div className="about-panel">
+          <div className="about-copy">
+            <p className="section-eyebrow">ABOUT ME</p>
+
+            <h2>The short version</h2>
+
+            <p>
+              I&apos;m a Kenyan multipotentialite with a curious mind and a
+              deep love for technology, storytelling, and innovation. I enjoy
+              building, learning, and creating — from writing and filmmaking
+              to coding and cybersecurity.
+            </p>
+
+            <p>
+              I believe in the power of ideas, the value of skills, and the
+              impact of telling African stories that matter.
+            </p>
+
+            <div className="about-traits">
+              <span><span aria-hidden="true">📍</span> Kenyan</span>
+              <span><span aria-hidden="true">✦</span> Creative</span>
+              <span><span aria-hidden="true">⚙</span> Problem Solver</span>
+              <span><span aria-hidden="true">♜</span> Lifelong Learner</span>
+            </div>
+
+            <div className="about-signature" aria-label="Calmey Crown">
+              <svg
+                className="about-crown"
+                viewBox="0 0 48 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 11L14 19L23 5L33 19L43 11L39 32H9L5 11Z"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M10 36H38"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span>Calmey Crown</span>
+            </div>
+          </div>
+
+          
+          <div className="about-portrait-column">
+            <div className="about-portrait-placeholder">
+              <img
+                className="about-portrait-image"
+                src="/images/calmey-portrait.jpg"
+                alt="Calmey Crown"
+              />
+            </div>
+
+            <p className="about-portrait-caption">
+              The future belongs to those who build it.
+            </p>
+          </div>
+        </div>
+
+        {/* RIGHT PANEL: SKILLS & INTERESTS */}
+        <div className="skills-panel" id="skills">
+          <div className="skills-heading">
+            <p className="section-eyebrow">WHAT I DO</p>
+            <h2>Skills &amp; Interests</h2>
+            <p>
+              I&apos;m not just one thing. I&apos;m a blend of skills,
+              interests and passions — and I&apos;m always expanding.
+            </p>
+          </div>
+
+          <div className="skills-grid">
+            <article className="skill-card">
+             <SkillIcon name="python" className="skill-icon" />              
+             <h3>Python</h3>
+              <p>Programming</p>
+            </article>
+
+            <article className="skill-card">
+            <SkillIcon name="cybersecurity" className="skill-icon" />
+              <h3>Cybersecurity</h3>
+              <p>&amp; Ethical Hacking</p>
+            </article>
+
+            <article className="skill-card">
+              <SkillIcon name="web" className="skill-icon" />
+              <h3>Web Development</h3>
+              <p>Frontend &amp; Backend</p>
+            </article>
+
+            <article className="skill-card">
+              <SkillIcon name="filmmaking" className="skill-icon" />
+              <h3>Filmmaking</h3>
+              <p>&amp; Video Editing</p>
+            </article>
+
+            <article className="skill-card">
+              <SkillIcon name="audio" className="skill-icon" />
+              <h3>Voice Work</h3>
+              <p>&amp; Audio Production</p>
+            </article>
+
+            <article className="skill-card">
+              <SkillIcon name="music" className="skill-icon" />
+              <h3>Music</h3>
+              <p>Beat Making &amp; Writing</p>
+            </article>
+
+            <article className="skill-card">
+              <SkillIcon name="space" className="skill-icon" />
+              <h3>Space &amp; Astronomy</h3>
+            </article>
+
+            <article className="skill-card">
+              <SkillIcon name="writing" className="skill-icon" />
+              <h3>Writing</h3>
+              <p>&amp; Storytelling</p>
+            </article>
+          </div>
         </div>
       </section>
 

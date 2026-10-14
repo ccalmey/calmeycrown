@@ -997,3 +997,389 @@ kbd {
   background: #ffd166;
   color: #19140a;
 }
+
+
+
+
+
+
+/* =========================================
+   MISSION 04: ABOUT ME + SKILLS & INTERESTS
+   CALMEY CROWN — CREATIVE PORTFOLIO
+   ========================================= */
+
+/* MAIN SECTION */
+
+.about-skills-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  align-items: stretch;
+  scroll-margin-top: 90px;
+}
+
+/* =========================================
+   LEFT PANEL — ABOUT ME
+   ========================================= */
+
+.about-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(140px, 0.8fr);
+  gap: 28px;
+  align-items: center;
+  min-width: 0;
+  padding: 56px clamp(24px, 4vw, 64px);
+  background: #0b0f12;
+  color: #f8f5ed;
+}
+
+.about-copy,
+.about-portrait-column {
+  min-width: 0;
+}
+
+.about-panel .section-eyebrow,
+.skills-panel .section-eyebrow {
+  margin: 0 0 10px;
+  color: #d9a83e;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.about-panel h2,
+.skills-panel h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.65rem, 2.2vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.about-panel .about-copy > p:not(.section-eyebrow) {
+  margin: 0 0 14px;
+  color: #dedfdf;
+  font-size: 0.91rem;
+  line-height: 1.8;
+}
+
+/* IDENTITY MARKERS */
+
+.about-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  margin-top: 24px;
+}
+
+.about-traits span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #eae4d5;
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.about-traits span span {
+  color: #e5b64d;
+  font-size: 1rem;
+}
+
+/* CROWN WORDMARK */
+
+.about-signature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  color: #e5b64d;
+}
+
+.about-crown {
+  width: 36px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.about-signature > span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  letter-spacing: -0.035em;
+}
+
+/* =========================================
+   PORTRAIT IMAGE
+   Image: public/images/calmey-portrait.jpg
+   ========================================= */
+
+.about-portrait-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.about-portrait-placeholder {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 245px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid #d9a83e;
+  background:
+    radial-gradient(
+      ellipse at 50% 25%,
+      rgba(217, 168, 62, 0.14),
+      transparent 65%
+    ),
+    #151b1f;
+  isolation: isolate;
+}
+
+/* Actual portrait */
+
+.about-portrait-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Decorative gold corners */
+
+.about-portrait-placeholder::before,
+.about-portrait-placeholder::after {
+  position: absolute;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-color: #d9a83e;
+  border-style: solid;
+  content: "";
+  pointer-events: none;
+}
+
+.about-portrait-placeholder::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.about-portrait-placeholder::after {
+  right: 0;
+  bottom: 0;
+  border-width: 0 2px 2px 0;
+}
+
+/* Optional placeholder icon and text */
+
+.about-portrait-placeholder > svg {
+  position: relative;
+  z-index: 0;
+  width: 76px;
+  max-width: 50%;
+  opacity: 0.7;
+}
+
+.about-portrait-placeholder > span {
+  position: relative;
+  z-index: 0;
+  display: block;
+  padding: 0 12px;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+/* Portrait caption */
+
+.about-portrait-caption {
+  max-width: 245px;
+  margin: 0;
+  color: #e9e3d7;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.88rem;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* =========================================
+   RIGHT PANEL — SKILLS & INTERESTS
+   ========================================= */
+
+.skills-panel {
+  min-width: 0;
+  padding: 56px clamp(24px, 4vw, 64px);
+  background: #f4f2ec;
+  color: #151a1f;
+}
+
+.skills-heading {
+  max-width: 480px;
+  margin-bottom: 24px;
+}
+
+.skills-panel .skills-heading > p:last-child {
+  margin: 0;
+  color: #45494d;
+  font-size: 0.91rem;
+  line-height: 1.7;
+}
+
+/* SKILLS GRID */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* INDIVIDUAL SKILL CARDS */
+
+.skill-card {
+  display: flex;
+  min-width: 0;
+  min-height: 112px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+  border: 1px solid rgba(25, 29, 32, 0.035);
+  border-radius: 10px;
+  background: rgba(25, 29, 32, 0.035);
+  text-align: center;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+/* CUSTOM SVG SKILL ICONS */
+
+.skill-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  margin-bottom: 9px;
+  color: #252a2d;
+}
+
+.skill-card h3 {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.skill-card p {
+  margin: 3px 0 0;
+  color: #45494d;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/* SKILL CARD HOVER */
+
+@media (hover: hover) {
+  .skill-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(190, 139, 35, 0.35);
+    background: #fffdf7;
+  }
+}
+
+/* =========================================
+   RESPONSIVE LAYOUT — TABLETS
+   ========================================= */
+
+@media (max-width: 1100px) {
+  .about-skills-section {
+    grid-template-columns: 1fr;
+  }
+
+  .about-panel,
+  .skills-panel {
+    padding: 48px clamp(24px, 5vw, 56px);
+  }
+
+  .about-panel {
+    grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.8fr);
+  }
+
+  .about-portrait-placeholder {
+    max-width: 280px;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* =========================================
+   RESPONSIVE LAYOUT — MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+  .about-panel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding: 40px 22px;
+  }
+
+  .about-panel h2,
+  .skills-panel h2 {
+    font-size: 1.8rem;
+  }
+
+  .about-traits {
+    gap: 12px 18px;
+  }
+
+  .about-portrait-column {
+    width: 100%;
+  }
+
+  .about-portrait-placeholder {
+    max-width: 280px;
+  }
+
+  .skills-panel {
+    padding: 40px 18px;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .skill-card {
+    min-height: 120px;
+    padding: 16px 10px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY — REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-card {
+    transition: none;
+  }
+
+  .skill-card:hover {
+    transform: none;
+  }
+}
