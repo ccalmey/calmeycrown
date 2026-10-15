@@ -716,7 +716,7 @@ export default function Home() {
           <div className="about-copy">
             <p className="section-eyebrow">ABOUT ME</p>
 
-            <h2>The short version</h2>
+            <h2>At a Glance</h2>
 
             <p>
               I&apos;m a Kenyan multipotentialite with a curious mind and a
@@ -822,8 +822,8 @@ export default function Home() {
 
             <article className="skill-card">
               <SkillIcon name="music" className="skill-icon" />
-              <h3>Music</h3>
-              <p>Beat Making &amp; Writing</p>
+              <h3>Music &amp; Arts</h3>
+              <p>Music Talent &amp; Visual Arts</p>
             </article>
 
             <article className="skill-card">
