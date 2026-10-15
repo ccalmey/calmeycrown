@@ -769,7 +769,7 @@ export default function Home() {
             <div className="about-portrait-placeholder">
               <img
                 className="about-portrait-image"
-                src="/images/calmey-portrait.jpg"
+                src="/images/calmey-about.jpg"
                 alt="Calmey Crown"
               />
             </div>

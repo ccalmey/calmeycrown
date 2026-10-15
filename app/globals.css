@@ -806,7 +806,7 @@ kbd {
       rgba(11, 15, 18, 0.82) 48%,
       rgba(11, 15, 18, 0.28) 100%
     ),
-    url("/images/hero-space.jpg") center center / cover no-repeat;
+    url("/images/hero-cover.png") center center / cover no-repeat;
 }
 
 .hero-content {
