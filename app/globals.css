@@ -809,7 +809,7 @@ kbd {
     url("/images/hero-cover.png") center center / cover no-repeat;
 }
 
-.hero-content {
+.hero-content{
   position: relative;
   z-index: 2;
   max-width: 760px;

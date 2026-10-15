@@ -780,7 +780,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* RIGHT PANEL: SKILLS & INTERESTS */}
+        {/* RIGHT PANEL : SKILLS & INTERESTS */}
         <div className="skills-panel" id="skills">
           <div className="skills-heading">
             <p className="section-eyebrow">WHAT I DO</p>
