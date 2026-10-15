@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 
 import SkillIcon from "@/components/SkillIcon";
 
+import { Analytics } from "@vercel/analytics/next"
+
 /*
   ==========================================
   CALMEY CROWN — NAVIGATION CONFIGURATION
