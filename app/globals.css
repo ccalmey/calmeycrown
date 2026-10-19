@@ -1389,3 +1389,811 @@ kbd {
     transform: none;
   }
 }
+
+
+/* =========================================
+   MISSION 05: FEATURED PROJECTS
+   ========================================= */
+
+.projects-section {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.9fr) minmax(0, 2.8fr);
+  align-items: center;
+  gap: 36px;
+  padding: 48px clamp(24px, 4.3vw, 64px);
+  background: #0b0f12;
+  color: #f8f5ed;
+  scroll-margin-top: 90px;
+}
+
+.projects-intro {
+  min-width: 0;
+}
+
+.projects-intro h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.7rem, 2.2vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.projects-intro > p:not(.section-eyebrow) {
+  margin: 0 0 22px;
+  color: #dedfdf;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.projects-all-link,
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #f0bd53;
+  text-decoration: none;
+}
+
+.projects-all-link {
+  padding: 9px 16px;
+  border: 1px solid #d9a83e;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.projects-all-link:hover {
+  background: #d9a83e;
+  color: #111518;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  min-width: 0;
+}
+
+.project-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+  background: #f4f2ec;
+  color: #171b20;
+}
+
+.project-image-wrap {
+  width: 100%;
+  aspect-ratio: 1.55 / 1;
+  overflow: hidden;
+  background: #171e23;
+}
+
+.project-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+
+@media (hover: hover) {
+  .project-card:hover .project-image {
+    transform: scale(1.045);
+  }
+}
+
+.project-card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px;
+}
+
+.project-card-content h3 {
+  margin: 0 0 8px;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.project-tags {
+  margin: 0 0 18px;
+  color: #52565b;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.project-link {
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 6px;
+  color: #20262c;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.project-link:hover {
+  color: #9a6b0d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* RESPONSIVE PROJECT GRID */
+
+@media (max-width: 1100px) {
+  .projects-section {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .projects-intro {
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 760px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .project-card-content {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .projects-section {
+    padding: 36px 16px;
+  }
+
+  .projects-grid {
+    gap: 9px;
+  }
+
+  .project-card-content {
+    padding: 10px;
+  }
+
+  .project-card-content h3 {
+    font-size: 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-image {
+    transition: none;
+  }
+}
+
+
+
+
+/* =========================================================
+   MISSION 06 + 07
+   MY JOURNEY | JOURNEY FOCUS | CONTACT | FOOTER
+   Calmey Crown — cinematic dark theme with restrained gold
+   ========================================================= */
+
+/* ---------- SHARED LAYOUT ---------- */
+
+.mission-hub {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  width: 100%;
+  scroll-margin-top: 90px;
+}
+
+.mission-hub > * {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.mission-hub h2 {
+  margin: 0 0 16px;
+  font-size: clamp(1.55rem, 1.8vw, 2.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.mission-hub .section-eyebrow {
+  margin: 0 0 12px;
+  color: #d9a83e;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+/* ---------- PANEL 1: MY JOURNEY ---------- */
+
+.mission-hub .journey-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  min-height: 420px;
+  padding: clamp(28px, 3vw, 42px) clamp(20px, 2vw, 30px);
+  overflow: hidden;
+  background:
+    linear-gradient(
+      115deg,
+      rgba(8, 12, 15, 0.96) 0%,
+      rgba(8, 12, 15, 0.86) 58%,
+      rgba(8, 12, 15, 0.72) 100%
+    ),
+    url("/images/journey-landscape.jfif") center / cover no-repeat,
+    #0b0f12;
+  color: #f8f5ed;
+}
+
+.mission-hub .journey-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.mission-hub .journey-description {
+  max-width: 480px;
+  margin: 0;
+  color: #dedfdf;
+  font-size: 0.86rem;
+  line-height: 1.8;
+}
+
+.mission-hub .journey-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  max-width: 100%;
+  margin-top: 22px;
+  padding: 11px 14px;
+  border: 1px solid #d9a83e;
+  border-radius: 999px;
+  color: #f0bd53;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.mission-hub .journey-cta:hover {
+  background: #d9a83e;
+  color: #111518;
+}
+
+/* ---------- PANEL 2: JOURNEY FOCUS ---------- */
+
+.mission-hub .journey-focus-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(28px, 3vw, 42px) clamp(18px, 2vw, 28px);
+  background: #11171b;
+  color: #f8f5ed;
+}
+
+.mission-hub .journey-focus-panel h2 {
+  margin-bottom: 24px;
+}
+
+.mission-hub .journey-focus-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mission-hub .journey-focus-list li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  color: #f1ede3;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.mission-hub .journey-icon {
+  display: grid;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid rgba(217, 168, 62, 0.65);
+  border-radius: 50%;
+  color: #e5b64d;
+}
+
+.mission-hub .journey-icon svg {
+  display: block;
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- PANEL 3: CONTACT ---------- */
+
+.mission-hub .contact-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 27px;
+  min-width: 0;
+  padding: clamp(28px, 3vw, 42px) clamp(20px, 2vw, 30px);
+  background: #f4f2ec;
+  color: #171b20;
+}
+
+.mission-hub .contact-intro {
+  margin: 0 0 21px;
+  color: #45494d;
+  font-size: 0.85rem;
+  line-height: 1.75;
+}
+
+.mission-hub .contact-detail-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  margin: 12px 0;
+  color: #292e33;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.mission-hub a.contact-detail-link:hover {
+  color: #946a13;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mission-hub .contact-detail-link > span {
+  flex: 0 0 auto;
+  color: #a77b20;
+  font-size: 1.1rem;
+}
+
+.mission-hub .contact-socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 23px;
+}
+
+.mission-hub .contact-socials a {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(23, 27, 32, 0.2);
+  border-radius: 50%;
+  color: #f7a707;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.mission-hub .contact-socials a:hover {
+  transform: translateY(-2px);
+  border-color: #b98a2d;
+  background: #d9a83e;
+  color: #171b20;
+}
+
+.mission-hub .contact-socials svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- CONTACT FORM ---------- */
+
+.mission-hub .contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  width: 100%;
+  min-width: 0;
+}
+
+.mission-hub .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mission-hub .contact-form input,
+.mission-hub .contact-form textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid #d6d3ca;
+  border-radius: 4px;
+  outline: none;
+  background: #fffefa;
+  color: #171b20;
+  font: inherit;
+  font-size: 0.83rem;
+  line-height: 1.5;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.mission-hub .contact-form textarea {
+  min-height: 105px;
+  resize: vertical;
+}
+
+.mission-hub .contact-form input::placeholder,
+.mission-hub .contact-form textarea::placeholder {
+  color: #74777a;
+  opacity: 1;
+}
+
+.mission-hub .contact-form input:focus-visible,
+.mission-hub .contact-form textarea:focus-visible {
+  border-color: #a77b20;
+  box-shadow: 0 0 0 3px rgba(167, 123, 32, 0.16);
+}
+
+.mission-hub .contact-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 18px;
+  border: 1px solid #d9a83e;
+  border-radius: 4px;
+  background: #d9a83e;
+  color: #17140c;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.mission-hub .contact-submit:hover {
+  border-color: #b98a2d;
+  background: #e8bd5b;
+}
+
+.mission-hub .contact-form-note {
+  margin: 0;
+  color: #65686a;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+/* ---------- MISSION 07: FOOTER ---------- */
+
+.site-footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px 30px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 30px clamp(24px, 4.3vw, 64px);
+  border-top: 1px solid rgba(217, 168, 62, 0.32);
+  background: #080c0f;
+  color: #f8f5ed;
+}
+
+.footer-brand {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  color: #f2c45f;
+  font-size: 0.87rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+}
+
+.footer-brand svg {
+  display: block;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 30px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.footer-signature {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #d8d1c1;
+  font-size: 0.76rem;
+}
+
+.footer-signature span:nth-child(even) {
+  color: #d9a83e;
+}
+
+.footer-nav {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 18px;
+}
+
+.footer-nav a {
+  color: #d8d1c1;
+  font-size: 0.76rem;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.footer-nav a:hover {
+  color: #f2c45f;
+}
+
+.footer-copyright {
+  flex: 0 1 auto;
+  margin: 0;
+  color: #aaa69c;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  text-align: right;
+}
+
+
+/* =========================================================
+   MISSION 06 + 07 — RESPONSIVE LAYOUT
+   Tablet • Mobile • Small Screens • Reduced Motion
+   ========================================================= */
+
+/* ---------- TABLET: 701px–1100px ---------- */
+
+@media (max-width: 1100px) {
+  .mission-hub {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mission-hub .journey-panel,
+  .mission-hub .journey-focus-panel {
+    grid-column: auto;
+  }
+
+  .mission-hub .contact-panel {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 28px;
+    padding: 38px clamp(24px, 4vw, 48px);
+  }
+
+  /* Center the complete footer on tablet */
+  .site-footer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 22px 30px;
+    text-align: center;
+  }
+
+  .footer-brand,
+  .footer-signature,
+  .footer-nav,
+  .footer-copyright {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .footer-brand {
+    margin-inline: auto;
+  }
+
+  .footer-signature,
+  .footer-nav {
+    flex-wrap: wrap;
+  }
+
+  .footer-copyright {
+    flex: 0 0 100%;
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* ---------- MOBILE: 701px and below ---------- */
+
+@media (max-width: 700px) {
+  .mission-hub {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mission-hub .journey-panel,
+  .mission-hub .journey-focus-panel,
+  .mission-hub .contact-panel {
+    grid-column: 1;
+    padding: 36px 22px;
+  }
+
+  .mission-hub .journey-panel {
+    min-height: 340px;
+  }
+
+  .mission-hub .journey-panel h2,
+  .mission-hub .journey-focus-panel h2,
+  .mission-hub .contact-panel h2 {
+    font-size: 1.9rem;
+  }
+
+  .mission-hub .journey-focus-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  .mission-hub .contact-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 26px;
+  }
+
+  /* Stack every footer item and center it */
+  .site-footer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 22px;
+    text-align: center;
+  }
+
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .footer-signature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    flex-wrap: wrap;
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-copyright {
+    align-self: center;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+/* ---------- VERY SMALL SCREENS: 380px and below ---------- */
+
+@media (max-width: 380px) {
+  .mission-hub .journey-panel,
+  .mission-hub .journey-focus-panel,
+  .mission-hub .contact-panel {
+    padding: 30px 17px;
+  }
+
+  .mission-hub .journey-cta {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .footer-brand {
+    gap: 9px;
+    font-size: 0.78rem;
+  }
+
+  .footer-brand svg {
+    width: 30px;
+    height: 27px;
+  }
+
+  .footer-signature {
+    gap: 6px;
+    font-size: 0.72rem;
+  }
+
+  .footer-nav {
+    gap: 13px 17px;
+  }
+
+  .footer-nav a {
+    font-size: 0.74rem;
+  }
+
+  .footer-copyright {
+    font-size: 0.68rem;
+    line-height: 1.7;
+  }
+}
+
+/* ---------- ACCESSIBILITY: REDUCED MOTION ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-hub .journey-cta,
+  .mission-hub .contact-socials a,
+  .mission-hub .contact-form input,
+  .mission-hub .contact-form textarea,
+  .mission-hub .contact-submit,
+  .footer-nav a {
+    transition: none;
+  }
+
+  .mission-hub .contact-socials a:hover {
+    transform: none;
+  }
+}
+

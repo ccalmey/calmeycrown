@@ -842,6 +842,375 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* ==========================================
+          MISSION 05: FEATURED PROJECTS
+          ========================================== */}
+
+
+
+      <section
+        className="projects-section"
+        id="projects"
+        aria-labelledby="projects-title"
+      >
+        <div className="projects-intro">
+          <p className="section-eyebrow">FEATURED PROJECTS</p>
+
+          <h2 id="projects-title">Things I’ve Built</h2>
+
+          <p>
+            From coding experiments to creative productions, here are a few
+            things I’m proud of.
+          </p>
+
+          <a className="projects-all-link" href="#contact">
+            View All Projects <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div className="projects-grid">
+          <article className="project-card">
+            <div className="project-image-wrap">
+              <img
+                className="project-image"
+                src="/images/project-summer.png"
+                alt="Summer, the debut novel by Calmey Crown"
+                loading="lazy"
+              />
+            </div>
+            <div className="project-card-content">
+              <h3>SUMMER (MY DEBUT NOVEL)</h3>
+              <p className="project-tags">Writing · Creativity</p>
+              <a
+                className="project-link"
+                href="https://www.kobo.com/ww/en/ebook/summer-257"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View SUMMER <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+
+
+          <article className="project-card">
+            <div className="project-image-wrap">
+              <img
+                className="project-image"
+                src="/images/project-crown-narratives.jpg"
+                alt="Studio microphone ready for recording"
+                loading="lazy"
+              />
+            </div>
+            <div className="project-card-content">
+              <h3>CROWN NARRATIVES</h3>
+              <p className="project-tags">Filmmaking · Voice · Storytelling</p>
+              <a className="project-link" href="https://www.youtube.com/@crowncalmey" 
+              target="_blank" 
+              rel="noreferrer">
+                View Crown Narratives <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+
+
+          <article className="project-card">
+            <div className="project-image-wrap">
+              <img
+                className="project-image"
+                src="/images/project-odundo.avif"
+                alt="Cybersecurity workstation displaying code"
+                loading="lazy"
+              />
+            </div>
+            <div className="project-card-content">
+              <h3>ODUNDO SECURITY SYSTEM</h3>
+              <p className="project-tags">Python · Cybersecurity</p>
+              <a className="project-link" href="#contact">
+                View Project <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+
+          <article className="project-card">
+            <div className="project-image-wrap">
+              <img
+                className="project-image"
+                src="/images/project-space.jfif"
+                alt="Satellite orbiting above Earth"
+                loading="lazy"
+              />
+            </div>
+            <div className="project-card-content">
+              <h3>CROWN SPACE SHUTTLE / PROBE</h3>
+              <p className="project-tags">Python · Space · STEM</p>
+              <a className="project-link" href="#contact">
+                View Project <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+          
+        </div>
+      </section>
+      
+
+      
+      {/* ==========================================
+          MISSION 06: JOURNEY + FOCUS + CONTACT
+         ========================================== */}
+
+      <section
+        className="mission-hub"
+        aria-label="Journey, journey focus and contact"
+      >
+        {/* PANEL 1: MY JOURNEY */}
+        <div className="journey-panel" id="journey">
+          <div className="journey-copy">
+            <p className="section-eyebrow">MY JOURNEY</p>
+            <h2>The Bigger Picture</h2>
+
+            <p className="journey-description">
+              I’m building a future where technology, creativity and
+              education create real opportunities — for me, and for
+              others, especially young people in Africa.
+            </p>
+
+            <a className="journey-cta" href="#about">
+              Learn More About My Journey
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        {/* PANEL 2: JOURNEY FOCUS */}
+        <div className="journey-focus-panel">
+          <p className="section-eyebrow">WHAT DRIVES ME</p>
+          <h2>My Focus</h2>
+
+          <ul className="journey-focus-list">
+            <li>
+              <span className="journey-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M8 8H5V5M5 5L10 10M16 16H19V19M19 19L14 14M14 5H19V10M19 5L14 10M10 14L5 19M5 19V14" />
+                </svg>
+              </span>
+              <span>Coding &amp; Automation</span>
+            </li>
+
+            <li>
+              <span className="journey-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="6" width="18" height="12" rx="2" />
+                  <path d="M7 6L12 11L17 6M12 11V18" />
+                </svg>
+              </span>
+              <span>Creative Media &amp; Filmmaking</span>
+            </li>
+
+            <li>
+              <span className="journey-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3L20 6V11C20 16 16.5 19.5 12 21C7.5 19.5 4 16 4 11V6L12 3Z" />
+                  <path d="M9 12L11 14L15 9" />
+                </svg>
+              </span>
+              <span>Cybersecurity &amp; Hacking</span>
+            </li>
+
+            <li>
+              <span className="journey-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="8" />
+                  <ellipse cx="12" cy="12" rx="3.5" ry="8" />
+                  <path d="M4.5 8H19.5M4.5 16H19.5" />
+                </svg>
+              </span>
+              <span>Space &amp; Exploration</span>
+            </li>
+
+            <li>
+              <span className="journey-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9L12 4L21 9L12 14L3 9Z" />
+                  <path d="M6 11V16L12 20L18 16V11" />
+                </svg>
+              </span>
+              <span>Education &amp; Mentorship</span>
+            </li>
+
+            <li>
+              <span className="journey-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M10 18V5L20 3V16" />
+                  <circle cx="7" cy="18" r="3" />
+                  <circle cx="17" cy="16" r="3" />
+                </svg>
+              </span>
+              <span>Music &amp; Arts</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* PANEL 3: CONTACT */}
+        <div className="contact-panel" id="contact">
+          <div className="contact-details">
+            <p className="section-eyebrow">GET IN TOUCH</p>
+            <h2>Let’s Work Together</h2>
+
+            <p className="contact-intro">
+              Have a project, collaboration, or just want to say hi?
+              I’d love to hear from you.
+            </p>
+
+            <a
+              className="contact-detail-link"
+              href="mailto:ccalmey@gmail.com"
+            >
+              <span aria-hidden="true">✉</span>
+              ccalmey@gmail.com
+            </a>
+
+            <p className="contact-detail-link">
+              <span aria-hidden="true">⌖</span>
+              Nairobi, Kenya
+            </p>
+
+            <div className="contact-socials" aria-label="Social media">
+              <a
+                href="https://www.youtube.com/@crowncalmey"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="YouTube"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.5 12a31 31 0 0 0-.5-4.8ZM9.5 15.5v-7l6 3.5-6 3.5Z" />
+                </svg>
+              </a>
+
+              <a
+                href="https://www.instagram.com/calmey.art"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              </a>
+
+              <a
+                href="https://www.facebook.com/crown.calmey"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Facebook"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5h1.7V3.7c-.8-.1-1.7-.2-2.6-.2-2.6 0-4.4 1.6-4.4 4.5v1.9H7V13h2.8v8h3.7Z" />
+                </svg>
+              </a>
+
+              <a
+                href="https://wa.me/254790971262"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7a8.5 8.5 0 1 1 16.1-4Z" />
+                  <path d="M8.5 7.8c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6.6 1 1.4 1.8 2.4 2.3.2.1.4.1.6-.1l.8-.9c.2-.2.4-.2.6-.1l1.7.8c.3.1.4.3.4.5 0 .3-.2 1.3-.8 1.7-.5.4-1.1.6-1.8.4-1-.2-2.3-.8-3.6-1.9-1.1-.9-2-2.1-2.4-3.1-.4-1-.1-1.8.4-2.4Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <form
+            className="contact-form"
+            action="mailto:ccalmey@gmail.com"
+            method="post"
+            encType="text/plain"
+          >
+            <label className="visually-hidden" htmlFor="contact-name">
+              Name
+            </label>
+            <input
+              id="contact-name"
+              name="Name"
+              type="text"
+              placeholder="Name"
+              required
+            />
+
+            <label className="visually-hidden" htmlFor="contact-email">
+              Email
+            </label>
+            <input
+              id="contact-email"
+              name="Email"
+              type="email"
+              placeholder="Email"
+              required
+            />
+
+            <label className="visually-hidden" htmlFor="contact-message">
+              Message
+            </label>
+            <textarea
+              id="contact-message"
+              name="Message"
+              placeholder="Message"
+              rows={4}
+              required
+            />
+
+            <button type="submit" className="contact-submit">
+              Send Message <span aria-hidden="true">→</span>
+            </button>
+
+            <p className="contact-form-note">
+              Your email app may open to send the message.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      {/* ==========================================
+          MISSION 07: FOOTER
+         ========================================== */}
+
+      <footer className="site-footer">
+        <a className="footer-brand" href="#home" aria-label="Calmey Crown home">
+          <svg viewBox="0 0 48 40" fill="none" aria-hidden="true">
+            <path d="M5 10L15 22L24 3L33 22L43 10L38 34H10L5 10Z" />
+            <path d="M10 37H38" />
+          </svg>
+          <span>CALMEY CROWN</span>
+        </a>
+
+        <div className="footer-signature">
+          <span>Space</span>
+          <span aria-hidden="true">•</span>
+          <span>Cybersecurity</span>
+          <span aria-hidden="true">•</span>
+          <span>STEM</span>
+        </div>
+
+        <nav className="footer-nav" aria-label="Footer navigation">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#blog">Blog</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <p className="footer-copyright">
+          © 2026 Calmey Crown. All Rights Reserved.
+        </p>
+      </footer>
+
     </main>
   );
 }
