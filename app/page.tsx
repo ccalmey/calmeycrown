@@ -25,10 +25,10 @@ import { Analytics } from "@vercel/analytics/next"
 
 const navigationLinks = [
   { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
+  { label: "About", href: "/about" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
-  { label: "Blog", href: "#blog" },
+  { label: "Journey", href: "#journey" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -45,8 +45,8 @@ export default function Home() {
      1. WEBSITE STATE
      ========================================== */
 
-  // Controls the colour theme. Dark mode is the default.
-  const [isLightMode, setIsLightMode] = useState(false);
+  // Controls the colour theme. Light mode is the default.
+  const [isLightMode, setIsLightMode] = useState(true);
 
   // Stops the default theme from overwriting a saved theme
   // before we've had a chance to read the browser storage.
@@ -64,9 +64,62 @@ export default function Home() {
   // Tracks which navigation section is currently active.
   const [activeSection, setActiveSection] = useState("home");
 
+  // Types the full greeting into the hero once when the page loads.
+  const [typedTitle, setTypedTitle] = useState("");
+  const [isTitleTyped, setIsTitleTyped] = useState(false);
+  const [typedDescription, setTypedDescription] = useState("");
+  const [isDescriptionTyped, setIsDescriptionTyped] = useState(false);
+
   // Lets us return keyboard focus to the search button
   // after the command palette closes.
   const searchButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const fullTitle = "Hi, I’m Calmey Crown";
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const characterDelay = 110;
+
+    let position = 0;
+    let timeoutId = 0;
+    const typeNextCharacter = () => {
+      position += 1;
+      setTypedTitle(fullTitle.slice(0, position));
+
+      if (position < fullTitle.length) {
+        timeoutId = window.setTimeout(typeNextCharacter, characterDelay);
+      } else {
+        setIsTitleTyped(true);
+      }
+    };
+
+    timeoutId = window.setTimeout(typeNextCharacter, reduceMotion ? 120 : 300);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
+  useEffect(() => {
+    if (!isTitleTyped) return;
+
+    const fullDescription =
+      "I explore ideas, build solutions, create stories and chase opportunities across tech, media, space and beyond.";
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const characterDelay = reduceMotion ? 20 : 32;
+    let position = 0;
+    let timeoutId = 0;
+
+    const typeNextCharacter = () => {
+      position += 1;
+      setTypedDescription(fullDescription.slice(0, position));
+
+      if (position < fullDescription.length) {
+        timeoutId = window.setTimeout(typeNextCharacter, characterDelay);
+      } else {
+        setIsDescriptionTyped(true);
+      }
+    };
+
+    timeoutId = window.setTimeout(typeNextCharacter, 180);
+    return () => window.clearTimeout(timeoutId);
+  }, [isTitleTyped]);
 
 
   /* ==========================================
@@ -159,6 +212,7 @@ export default function Home() {
 
   useEffect(() => {
     const sectionElements = navigationLinks
+      .filter((link) => link.href.startsWith("#"))
       .map((link) => document.querySelector(link.href))
       .filter((element): element is Element => element !== null);
 
@@ -196,6 +250,57 @@ export default function Home() {
 
     // Stop watching when this effect is cleaned up.
     return () => observer.disconnect();
+  }, []);
+
+  // Reveal content as it enters view and keep a fine progress cue in sync.
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealElements = document.querySelectorAll<HTMLElement>(".motion-reveal");
+    let revealObserver: IntersectionObserver | undefined;
+
+    if (!reduceMotion && "IntersectionObserver" in window) {
+      document.documentElement.classList.add("motion-ready");
+      revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver?.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -48px 0px" }
+      );
+
+      revealElements.forEach((element) => revealObserver?.observe(element));
+    }
+
+    let frame = 0;
+    const updateProgress = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const scrollableHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+        document.documentElement.style.setProperty(
+          "--scroll-progress",
+          String(Math.min(1, Math.max(0, progress)))
+        );
+      });
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+
+    return () => {
+      revealObserver?.disconnect();
+      document.documentElement.classList.remove("motion-ready");
+      document.documentElement.style.removeProperty("--scroll-progress");
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
   }, []);
 
 
@@ -238,6 +343,11 @@ export default function Home() {
     to a broken destination.
   */
   function runNavigationCommand(href: string) {
+    if (href.startsWith("/")) {
+      window.location.assign(href);
+      return;
+    }
+
     const target = document.querySelector(href);
 
     if (!target) return;
@@ -258,7 +368,14 @@ export default function Home() {
 
   // Keep this check safe during server rendering.
   // Only mark sections as available once their matching HTML IDs exist.
-  const availableSectionHrefs = new Set(["#home"]);
+  const availableSectionHrefs = new Set([
+    "#home",
+    "/about",
+    "#skills",
+    "#projects",
+    "#journey",
+    "#contact",
+  ]);
 
   function isDestinationAvailable(href: string) {
     return availableSectionHrefs.has(href);
@@ -329,6 +446,7 @@ export default function Home() {
       }`}
       id="home"
     >
+      <div className="scroll-progress" aria-hidden="true" />
       <header className="site-header">
 
         {/* LEFT: crown logo and brand name */}
@@ -372,11 +490,13 @@ export default function Home() {
             <a
               key={link.href}
               className={`nav-link ${
-                activeSection === link.href.slice(1) ? "active" : ""
+                link.href.startsWith("#") && activeSection === link.href.slice(1)
+                  ? "active"
+                  : ""
               }`}
               href={link.href}
               aria-current={
-                activeSection === link.href.slice(1)
+                link.href.startsWith("#") && activeSection === link.href.slice(1)
                   ? "location"
                   : undefined
               }
@@ -510,9 +630,11 @@ export default function Home() {
           {navigationLinks.map((link) => (
             <a
               key={link.href}
-              className={`mobile-nav-link ${
-                activeSection === link.href.slice(1) ? "active" : ""
-              }`}
+                className={`mobile-nav-link ${
+                  link.href.startsWith("#") && activeSection === link.href.slice(1)
+                    ? "active"
+                    : ""
+                }`}
               href={link.href}
               aria-current={
                 activeSection === link.href.slice(1)
@@ -653,13 +775,31 @@ export default function Home() {
             CREATIVE <span>•</span> TECH <span>•</span> STORYTELLER <span>•</span> EXPLORER
           </p>
 
-          <h1 id="hero-title">
-            Hi, I’m <span className="hero-name">Calmey Crown</span>
+          <h1 id="hero-title" aria-label="Hi, I’m Calmey Crown">
+            <span className="typing-title-copy" aria-hidden="true">
+              {typedTitle.slice(0, 8)}
+              {!isTitleTyped && typedTitle.length < 8 && (
+                <span className="typing-caret typing-caret-intro" />
+              )}
+            </span>
+            <span className="hero-name typing-name" aria-hidden="true">
+              {typedTitle.slice(8)}
+              {!isTitleTyped && typedTitle.length >= 8 && (
+                <span className="typing-caret typing-caret-accent" />
+              )}
+            </span>
           </h1>
 
           <p className="hero-description">
-            I explore ideas, build solutions, create stories and chase
-            opportunities across tech, media, space and beyond.
+            <span className="sr-only">
+              I explore ideas, build solutions, create stories and chase opportunities across tech, media, space and beyond.
+            </span>
+            <span aria-hidden="true">
+              {typedDescription}
+              {!isDescriptionTyped && isTitleTyped && (
+                <span className="typing-caret typing-caret-accent" />
+              )}
+            </span>
           </p>
 
           <p className="hero-motto">
@@ -714,7 +854,7 @@ export default function Home() {
 
       <section className="about-skills-section" id="about">
         {/* LEFT PANEL: ABOUT ME */}
-        <div className="about-panel">
+        <div className="about-panel motion-reveal">
           <div className="about-copy">
             <p className="section-eyebrow">ABOUT ME</p>
 
@@ -722,7 +862,7 @@ export default function Home() {
 
             <p>
               I&apos;m a Kenyan multipotentialite with a curious mind and a
-              deep love for technology, storytelling, and innovation. I enjoy
+              deep love for art technology, storytelling, and innovation. I enjoy
               building, learning, and creating — from writing and filmmaking
               to coding and cybersecurity.
             </p>
@@ -781,7 +921,7 @@ export default function Home() {
         </div>
 
         {/* RIGHT PANEL : SKILLS & INTERESTS */}
-        <div className="skills-panel" id="skills">
+        <div className="skills-panel motion-reveal" id="skills">
           <div className="skills-heading">
             <p className="section-eyebrow">WHAT I DO</p>
             <h2>Skills &amp; Interests</h2>
@@ -792,48 +932,48 @@ export default function Home() {
           </div>
 
           <div className="skills-grid">
-            <article className="skill-card">
+            <article className="skill-card motion-reveal">
              <SkillIcon name="python" className="skill-icon" />              
              <h3>Python</h3>
               <p>Programming</p>
             </article>
 
-            <article className="skill-card">
+            <article className="skill-card motion-reveal">
             <SkillIcon name="cybersecurity" className="skill-icon" />
               <h3>Cybersecurity</h3>
               <p>&amp; Ethical Hacking</p>
             </article>
 
-            <article className="skill-card">
+            <article className="skill-card motion-reveal">
               <SkillIcon name="web" className="skill-icon" />
               <h3>Web Development</h3>
               <p>Frontend &amp; Backend</p>
             </article>
 
-            <article className="skill-card">
+            <article className="skill-card motion-reveal">
               <SkillIcon name="filmmaking" className="skill-icon" />
               <h3>Filmmaking</h3>
               <p>&amp; Video Editing</p>
             </article>
 
-            <article className="skill-card">
+            <article className="skill-card motion-reveal">
               <SkillIcon name="audio" className="skill-icon" />
               <h3>Voice Work</h3>
               <p>&amp; Audio Production</p>
             </article>
 
-            <article className="skill-card">
+            <article className="skill-card motion-reveal">
               <SkillIcon name="music" className="skill-icon" />
               <h3>Music &amp; Arts</h3>
               <p>Music Talent &amp; Visual Arts</p>
             </article>
 
-            <article className="skill-card">
+            <article className="skill-card motion-reveal">
               <SkillIcon name="space" className="skill-icon" />
               <h3>Space &amp; Astronomy</h3>
             </article>
 
-            <article className="skill-card">
+            <article className="skill-card motion-reveal">
               <SkillIcon name="writing" className="skill-icon" />
               <h3>Writing</h3>
               <p>&amp; Storytelling</p>
@@ -854,7 +994,7 @@ export default function Home() {
         id="projects"
         aria-labelledby="projects-title"
       >
-        <div className="projects-intro">
+        <div className="projects-intro motion-reveal">
           <p className="section-eyebrow">FEATURED PROJECTS</p>
 
           <h2 id="projects-title">Things I’ve Built</h2>
@@ -870,7 +1010,7 @@ export default function Home() {
         </div>
 
         <div className="projects-grid">
-          <article className="project-card">
+          <article className="project-card motion-reveal">
             <div className="project-image-wrap">
               <img
                 className="project-image"
@@ -894,7 +1034,7 @@ export default function Home() {
           </article>
 
 
-          <article className="project-card">
+          <article className="project-card motion-reveal">
             <div className="project-image-wrap">
               <img
                 className="project-image"
@@ -915,7 +1055,7 @@ export default function Home() {
           </article>
 
 
-          <article className="project-card">
+          <article className="project-card motion-reveal">
             <div className="project-image-wrap">
               <img
                 className="project-image"
@@ -933,7 +1073,7 @@ export default function Home() {
             </div>
           </article>
 
-          <article className="project-card">
+          <article className="project-card motion-reveal">
             <div className="project-image-wrap">
               <img
                 className="project-image"
@@ -965,7 +1105,7 @@ export default function Home() {
         aria-label="Journey, journey focus and contact"
       >
         {/* PANEL 1: MY JOURNEY */}
-        <div className="journey-panel" id="journey">
+        <div className="journey-panel motion-reveal" id="journey">
           <div className="journey-copy">
             <p className="section-eyebrow">MY JOURNEY</p>
             <h2>The Bigger Picture</h2>
@@ -984,7 +1124,7 @@ export default function Home() {
         </div>
 
         {/* PANEL 2: JOURNEY FOCUS */}
-        <div className="journey-focus-panel">
+        <div className="journey-focus-panel motion-reveal">
           <p className="section-eyebrow">WHAT DRIVES ME</p>
           <h2>My Focus</h2>
 
@@ -1053,7 +1193,7 @@ export default function Home() {
         </div>
 
         {/* PANEL 3: CONTACT */}
-        <div className="contact-panel" id="contact">
+        <div className="contact-panel motion-reveal" id="contact">
           <div className="contact-details">
             <p className="section-eyebrow">GET IN TOUCH</p>
             <h2>Let’s Work Together</h2>
@@ -1199,10 +1339,10 @@ export default function Home() {
 
         <nav className="footer-nav" aria-label="Footer navigation">
           <a href="#home">Home</a>
-          <a href="#about">About</a>
+          <a href="/about">About</a>
           <a href="#skills">Skills</a>
           <a href="#projects">Projects</a>
-          <a href="#blog">Blog</a>
+          <a href="#journey">Journey</a>
           <a href="#contact">Contact</a>
         </nav>
 
