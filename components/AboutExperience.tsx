@@ -2,131 +2,119 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-const THEME_STORAGE_KEY = "calmey-crown-theme";
-
-const pageLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/about" },
-  { label: "Skills", href: "/#skills" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Journey", href: "/#journey" },
-  { label: "Contact", href: "/#contact" },
-];
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+import { useTheme } from "@/components/ThemeProvider";
 
 export default function AboutExperience() {
-  const [isLightMode, setIsLightMode] = useState(true);
-  const [hasLoadedTheme, setHasLoadedTheme] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isLightMode } = useTheme();
+  const [typedTitle, setTypedTitle] = useState("");
+  const [isTitleTyped, setIsTitleTyped] = useState(false);
+  const [typedLede, setTypedLede] = useState("");
+  const [isLedeTyped, setIsLedeTyped] = useState(false);
 
   useEffect(() => {
-    try {
-      setIsLightMode(localStorage.getItem(THEME_STORAGE_KEY) !== "dark");
-    } catch {
-      // Keep the default dark theme when storage is unavailable.
-    } finally {
-      setHasLoadedTheme(true);
-    }
+    const title = "Many interests.One curious mind.";
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const characterDelay = reduceMotion ? 80 : 105;
+    let position = 0;
+    let timeoutId = 0;
+
+    const typeNextCharacter = () => {
+      position += 1;
+      setTypedTitle(title.slice(0, position));
+
+      if (position < title.length) {
+        timeoutId = window.setTimeout(typeNextCharacter, characterDelay);
+      } else {
+        setIsTitleTyped(true);
+      }
+    };
+
+    timeoutId = window.setTimeout(typeNextCharacter, reduceMotion ? 100 : 300);
+    return () => window.clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
-    if (!hasLoadedTheme) return;
+    if (!isTitleTyped) return;
 
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, isLightMode ? "light" : "dark");
-    } catch {
-      // The theme toggle still works for this visit.
-    }
-  }, [hasLoadedTheme, isLightMode]);
+    const lede =
+      "I’m Calmey Crown, a Kenyan multipotentialite drawn to the places where art, technology, storytelling and curiosity meet.";
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const characterDelay = reduceMotion ? 20 : 30;
+    let position = 0;
+    let timeoutId = 0;
 
-  function closeMenu() {
-    setIsMenuOpen(false);
-  }
+    const typeNextCharacter = () => {
+      position += 1;
+      setTypedLede(lede.slice(0, position));
+
+      if (position < lede.length) {
+        timeoutId = window.setTimeout(typeNextCharacter, characterDelay);
+      } else {
+        setIsLedeTyped(true);
+      }
+    };
+
+    timeoutId = window.setTimeout(typeNextCharacter, 180);
+    return () => window.clearTimeout(timeoutId);
+  }, [isTitleTyped]);
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion || !("IntersectionObserver" in window)) return;
+
+    const revealElements = document.querySelectorAll<HTMLElement>(".about-reveal");
+    if (revealElements.length === 0) return;
+
+    document.documentElement.classList.add("about-motion-ready");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -44px 0px" }
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("about-motion-ready");
+    };
+  }, []);
 
   return (
-    <main className={`site-shell about-shell ${isLightMode ? "theme-light" : "theme-dark"}`}>
-      <header className="site-header subpage-header">
-        <a className="brand" href="/#home" aria-label="Calmey Crown home" onClick={closeMenu}>
-          <svg className="crown-logo" viewBox="0 0 48 40" fill="none" aria-hidden="true">
-            <path d="M5 10L15 22L24 3L33 22L43 10L38 34H10L5 10Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-            <path d="M10 28H38M13 37H35" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
-          <span className="brand-name">CALMEY CROWN</span>
-        </a>
+    <main id="about-main" className={`site-shell about-shell ${isLightMode ? "theme-light" : "theme-dark"}`}>
+      <a className="about-skip-link" href="#about-content">Skip to content</a>
+      <SiteHeader activePage="about" />
 
-        <nav className="main-nav desktop-nav" aria-label="Main navigation">
-          {pageLinks.map((link) => (
-            <a
-              className={`nav-link ${link.href === "/about" ? "active" : ""}`}
-              href={link.href}
-              aria-current={link.href === "/about" ? "page" : undefined}
-              key={link.href}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        <button
-          className="menu-toggle"
-          type="button"
-          onClick={() => setIsMenuOpen((open) => !open)}
-          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={isMenuOpen}
-          aria-controls="about-mobile-navigation"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-            {isMenuOpen ? <path d="M6 6L18 18M18 6L6 18" /> : <path d="M3 6H21M3 12H21M3 18H21" />}
-          </svg>
-        </button>
-
-        <a className="connect-button" href="/#contact" onClick={closeMenu}>Let&apos;s Connect</a>
-
-        <button
-          className="theme-icon"
-          type="button"
-          onClick={() => setIsLightMode((light) => !light)}
-          aria-label={isLightMode ? "Switch to dark mode" : "Switch to light mode"}
-          title={isLightMode ? "Switch to dark mode" : "Switch to light mode"}
-        >
-          {isLightMode ? (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
-              <path d="M20.2 15.4A8.4 8.4 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4" />
-              <path d="M12 2V4M12 20V22M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 12H4M20 12H22M4.93 19.07L6.34 17.66M17.66 6.34L19.07 4.93" />
-            </svg>
-          )}
-        </button>
-
-        <nav
-          id="about-mobile-navigation"
-          className={`mobile-nav ${isMenuOpen ? "is-open" : ""}`}
-          aria-label="Mobile navigation"
-        >
-          {pageLinks.map((link) => (
-            <a
-              className={`mobile-nav-link ${link.href === "/about" ? "active" : ""}`}
-              href={link.href}
-              aria-current={link.href === "/about" ? "page" : undefined}
-              key={link.href}
-              onClick={closeMenu}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-      </header>
-
-      <section className="about-page-hero" aria-labelledby="about-title">
+      <section id="about-content" className="about-page-hero" aria-labelledby="about-title">
         <div className="about-page-hero-copy">
           <p className="section-eyebrow">A LITTLE ABOUT ME</p>
-          <h1 id="about-title">Many interests.<br /><span>One curious mind.</span></h1>
+          <h1 id="about-title" aria-label="Many interests. One curious mind.">
+            <span aria-hidden="true">{typedTitle.slice(0, 15)}</span>
+            {!isTitleTyped && typedTitle.length < 15 && (
+              <span className="typing-caret" aria-hidden="true" />
+            )}
+            <br />
+            <span className="about-title-accent" aria-hidden="true">{typedTitle.slice(15)}</span>
+            {!isTitleTyped && typedTitle.length >= 15 && (
+              <span className="typing-caret typing-caret-accent" aria-hidden="true" />
+            )}
+          </h1>
           <p className="about-page-lede">
-            I&apos;m Calmey Crown, a Kenyan multipotentialite drawn to the places where art, technology,
-            storytelling and curiosity meet.
+            <span className="sr-only">I’m Calmey Crown, a Kenyan multipotentialite drawn to the places where art, technology, storytelling and curiosity meet.</span>
+            <span aria-hidden="true">
+              {typedLede}
+              {!isLedeTyped && isTitleTyped && (
+                <span className="typing-caret typing-caret-accent" />
+              )}
+            </span>
           </p>
           <div className="about-page-meta" aria-label="Based in Nairobi, Kenya">
             <span className="about-meta-dot" aria-hidden="true" />
@@ -179,21 +167,21 @@ export default function AboutExperience() {
         </div>
 
         <div className="about-discipline-grid">
-          <article className="about-discipline-card">
+          <article className="about-discipline-card about-reveal">
             <span className="about-card-number">01</span>
             <span className="about-card-symbol" aria-hidden="true">⌘</span>
             <h3>Technology &amp; problem solving</h3>
             <p>From Python and web development to cybersecurity, I enjoy understanding how systems work and finding thoughtful ways to make them better.</p>
-            <a href="/#skills">Explore my skills <span aria-hidden="true">↗</span></a>
+            <a href="/skills">Explore my skills <span aria-hidden="true">↗</span></a>
           </article>
-          <article className="about-discipline-card">
+          <article className="about-discipline-card about-reveal">
             <span className="about-card-number">02</span>
             <span className="about-card-symbol" aria-hidden="true">✳</span>
             <h3>Stories &amp; creative work</h3>
             <p>Writing, filmmaking, voice work, music and visual art let me shape ideas into experiences that can be felt, shared and remembered.</p>
-            <a href="/#projects">See selected projects <span aria-hidden="true">↗</span></a>
+            <a href="/projects">See selected projects <span aria-hidden="true">↗</span></a>
           </article>
-          <article className="about-discipline-card">
+          <article className="about-discipline-card about-reveal">
             <span className="about-card-number">03</span>
             <span className="about-card-symbol" aria-hidden="true">✧</span>
             <h3>Space, STEM &amp; possibility</h3>
@@ -229,10 +217,10 @@ export default function AboutExperience() {
           </div>
         </div>
         <div className="about-practice-list">
-          <article><span>01</span><h3>Stay curious</h3><p>Ask better questions and remain open to learning from people and disciplines beyond my own.</p></article>
-          <article><span>02</span><h3>Make something</h3><p>Turn ideas into projects, stories and experiments — and learn from the process.</p></article>
-          <article><span>03</span><h3>Connect what I learn</h3><p>Look for useful connections between technology, creativity and the needs around me.</p></article>
-          <article><span>04</span><h3>Share the possibility</h3><p>Help make knowledge, creativity and opportunity feel more accessible to others.</p></article>
+          <article className="about-reveal"><span>01</span><h3>Stay curious</h3><p>Ask better questions and remain open to learning from people and disciplines beyond my own.</p></article>
+          <article className="about-reveal"><span>02</span><h3>Make something</h3><p>Turn ideas into projects, stories and experiments — and learn from the process.</p></article>
+          <article className="about-reveal"><span>03</span><h3>Connect what I learn</h3><p>Look for useful connections between technology, creativity and the needs around me.</p></article>
+          <article className="about-reveal"><span>04</span><h3>Share the possibility</h3><p>Help make knowledge, creativity and opportunity feel more accessible to others.</p></article>
         </div>
       </section>
 
@@ -242,22 +230,11 @@ export default function AboutExperience() {
         <p>If something here resonates, I&apos;d be glad to hear what you&apos;re working on.</p>
         <div className="about-cta-actions">
           <a className="hero-cta" href="/#contact">Let&apos;s Connect <span aria-hidden="true">→</span></a>
-          <a className="about-text-link" href="/#projects">Explore my projects <span aria-hidden="true">↗</span></a>
+          <a className="about-text-link" href="/projects">Explore my projects <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 
-      <footer className="site-footer about-site-footer">
-        <a className="footer-brand" href="/#home" aria-label="Calmey Crown home">
-          <svg viewBox="0 0 48 40" fill="none" aria-hidden="true">
-            <path d="M5 10L15 22L24 3L33 22L43 10L38 34H10L5 10Z" />
-            <path d="M10 37H38" />
-          </svg>
-          <span>CALMEY CROWN</span>
-        </a>
-        <p>Space <span aria-hidden="true">·</span> Cybersecurity <span aria-hidden="true">·</span> STEM</p>
-        <a href="/#home">Back to home <span aria-hidden="true">↑</span></a>
-        <small>© 2026 Calmey Crown</small>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

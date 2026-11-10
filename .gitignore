@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Keep the full ebook source local; publish only the curated synopsis and cover assets.
+/content/books/summer/source.epub
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

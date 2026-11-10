@@ -1,59 +1,36 @@
 
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { track } from "@vercel/analytics";
 
-import SkillIcon from "@/components/SkillIcon";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+import { useTheme } from "@/components/ThemeProvider";
+import { SITE_NAVIGATION } from "@/lib/site-navigation";
+import { PROJECTS } from "@/lib/portfolio-content";
+import { PORTFOLIO_UPDATES } from "@/lib/portfolio-updates";
 
-import { Analytics } from "@vercel/analytics/next"
-
-/*
-  ==========================================
-  CALMEY CROWN — NAVIGATION CONFIGURATION
-  ==========================================
-
-  This is the main list of website sections.
-
-  When we build a new section later, update this
-  list with its label and matching HTML ID.
-
-  Example:
-  { label: "Projects", href: "#projects" }
-
-  The href must match the section's id.
-*/
-
-const navigationLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "/about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Journey", href: "#journey" },
-  { label: "Contact", href: "#contact" },
-];
-
-/*
-  This key is the name of the preference stored
-  in the visitor's browser.
-
-  Keep it consistent so their theme is remembered.
-*/
-const THEME_STORAGE_KEY = "calmey-crown-theme";
+// The homepage stays intentionally concise: a typed introduction, a short personal bridge,
+// a few portfolio-backed highlights, and one direct contact route.
+// This fixed order puts published work first, then Crown Narratives, then the art signature.
+const FEATURED_PROJECT_IDS = ["summer", "crown-narratives", "pencil-art"];
+const featuredProjects = FEATURED_PROJECT_IDS.flatMap((id) => {
+  const project = PROJECTS.find((entry) => entry.id === id);
+  return project ? [project] : [];
+});
+const latestUpdates = [...PORTFOLIO_UPDATES]
+  .sort((first, second) => (second.date ?? "").localeCompare(first.date ?? ""))
+  .slice(0, 3);
 
 export default function Home() {
   /* ==========================================
      1. WEBSITE STATE
      ========================================== */
 
-  // Controls the colour theme. Light mode is the default.
-  const [isLightMode, setIsLightMode] = useState(true);
-
-  // Stops the default theme from overwriting a saved theme
-  // before we've had a chance to read the browser storage.
-  const [hasLoadedTheme, setHasLoadedTheme] = useState(false);
-
-  // Controls the mobile navigation dropdown.
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isLightMode, toggleTheme } = useTheme();
 
   // Controls whether the command palette is visible.
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
@@ -69,10 +46,6 @@ export default function Home() {
   const [isTitleTyped, setIsTitleTyped] = useState(false);
   const [typedDescription, setTypedDescription] = useState("");
   const [isDescriptionTyped, setIsDescriptionTyped] = useState(false);
-
-  // Lets us return keyboard focus to the search button
-  // after the command palette closes.
-  const searchButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const fullTitle = "Hi, I’m Calmey Crown";
@@ -123,48 +96,7 @@ export default function Home() {
 
 
   /* ==========================================
-     2. LOAD THE VISITOR'S SAVED THEME
-     ========================================== */
-
-  useEffect(() => {
-    try {
-      const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-
-      if (savedTheme === "light") {
-        setIsLightMode(true);
-      } else if (savedTheme === "dark") {
-        setIsLightMode(false);
-      }
-    } catch {
-      // If browser storage is unavailable, keep dark mode.
-    } finally {
-      setHasLoadedTheme(true);
-    }
-  }, []);
-
-
-  /* ==========================================
-     3. SAVE THE THEME WHEN IT CHANGES
-     ========================================== */
-
-  useEffect(() => {
-    // Do not save the default until the old preference
-    // has been checked. Otherwise, we might overwrite it.
-    if (!hasLoadedTheme) return;
-
-    try {
-      localStorage.setItem(
-        THEME_STORAGE_KEY,
-        isLightMode ? "light" : "dark"
-      );
-    } catch {
-      // The theme still works if storage is unavailable.
-    }
-  }, [isLightMode, hasLoadedTheme]);
-
-
-  /* ==========================================
-     4. KEYBOARD SHORTCUTS
+     2. KEYBOARD SHORTCUTS
      ========================================== */
 
   useEffect(() => {
@@ -178,13 +110,11 @@ export default function Home() {
       if (shortcutPressed) {
         event.preventDefault();
         setIsPaletteOpen((current) => !current);
-        setIsMenuOpen(false);
       }
 
       // Escape closes whichever overlay is open.
       if (event.key === "Escape") {
         setIsPaletteOpen(false);
-        setIsMenuOpen(false);
       }
     }
 
@@ -211,10 +141,10 @@ export default function Home() {
   */
 
   useEffect(() => {
-    const sectionElements = navigationLinks
-      .filter((link) => link.href.startsWith("#"))
-      .map((link) => document.querySelector(link.href))
-      .filter((element): element is Element => element !== null);
+    const sectionElements = SITE_NAVIGATION
+      .filter((link) => link.homeSection)
+      .map((link) => document.getElementById(link.homeSection!))
+      .filter((element): element is HTMLElement => element !== null);
 
     if (sectionElements.length === 0) return;
 
@@ -308,16 +238,10 @@ export default function Home() {
      6. SMALL REUSABLE ACTIONS
      ========================================== */
 
-  // Close the mobile menu after a visitor selects a link.
-  function closeMenu() {
-    setIsMenuOpen(false);
-  }
-
   // Open the palette and clear any old search.
   function openPalette() {
     setCommandSearch("");
     setIsPaletteOpen(true);
-    setIsMenuOpen(false);
   }
 
   // Close the palette and return focus to its trigger.
@@ -326,13 +250,8 @@ export default function Home() {
     setCommandSearch("");
 
     window.setTimeout(() => {
-      searchButtonRef.current?.focus();
+      document.getElementById("site-command-trigger")?.focus();
     }, 0);
-  }
-
-  // Change the theme and save it through the effect above.
-  function toggleTheme() {
-    setIsLightMode((current) => !current);
   }
 
   /*
@@ -355,7 +274,6 @@ export default function Home() {
     setActiveSection(href.replace("#", ""));
     setIsPaletteOpen(false);
     setCommandSearch("");
-    setIsMenuOpen(false);
 
     target.scrollIntoView({
       behavior: "smooth",
@@ -369,12 +287,11 @@ export default function Home() {
   // Keep this check safe during server rendering.
   // Only mark sections as available once their matching HTML IDs exist.
   const availableSectionHrefs = new Set([
-    "#home",
+    "/#home",
+    "/skills",
+    "/projects",
     "/about",
-    "#skills",
-    "#projects",
-    "#journey",
-    "#contact",
+    "/#contact",
   ]);
 
   function isDestinationAvailable(href: string) {
@@ -397,7 +314,7 @@ export default function Home() {
   */
 
   const commandItems = [
-    ...navigationLinks.map((link) => ({
+    ...SITE_NAVIGATION.map((link) => ({
       label: `Go to ${link.label}`,
       description: `Navigate to the ${link.label} section`,
       keywords: `${link.label} navigation section`,
@@ -447,208 +364,11 @@ export default function Home() {
       id="home"
     >
       <div className="scroll-progress" aria-hidden="true" />
-      <header className="site-header">
-
-        {/* LEFT: crown logo and brand name */}
-        <a
-          className="brand"
-          href="#home"
-          aria-label="Calmey Crown home"
-          onClick={closeMenu}
-        >
-          <svg
-            className="crown-logo"
-            viewBox="0 0 48 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path
-              d="M5 10 L15 22 L24 3 L33 22 L43 10 L38 34 L10 34 Z"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M10 28 H38 M13 37 H35"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-          </svg>
-
-          <span className="brand-name">CALMEY CROWN</span>
-        </a>
-
-
-        {/* DESKTOP: full navigation */}
-        <nav
-          className="main-nav desktop-nav"
-          aria-label="Main navigation"
-        >
-          {navigationLinks.map((link) => (
-            <a
-              key={link.href}
-              className={`nav-link ${
-                link.href.startsWith("#") && activeSection === link.href.slice(1)
-                  ? "active"
-                  : ""
-              }`}
-              href={link.href}
-              aria-current={
-                link.href.startsWith("#") && activeSection === link.href.slice(1)
-                  ? "location"
-                  : undefined
-              }
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-
-        {/* MOBILE: hamburger button */}
-        <button
-          className="menu-toggle"
-          type="button"
-          onClick={() => setIsMenuOpen((current) => !current)}
-          aria-label={
-            isMenuOpen ? "Close navigation menu" : "Open navigation menu"
-          }
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-navigation"
-        >
-          {isMenuOpen ? (
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
-              <path d="M6 6 L18 18 M18 6 L6 18" />
-            </svg>
-          ) : (
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
-              <path d="M3 6 H21 M3 12 H21 M3 18 H21" />
-            </svg>
-          )}
-        </button>
-
-
-        {/* RIGHT: contact button */}
-        <a
-          className="connect-button"
-          href="#contact"
-          onClick={closeMenu}
-        >
-          Let&apos;s Connect
-        </a>
-
-
-        {/* SEARCH: opens the hidden command palette */}
-        <button
-          ref={searchButtonRef}
-          className="palette-trigger"
-          type="button"
-          onClick={openPalette}
-          aria-label="Open command palette"
-          title="Search commands (Ctrl+K)"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            aria-hidden="true"
-          >
-            <circle cx="10.8" cy="10.8" r="6.8" />
-            <path d="m16 16 4.2 4.2" />
-          </svg>
-        </button>
-
-
-        {/* FAR RIGHT: saved light/dark theme toggle */}
-        <button
-          className="theme-icon"
-          type="button"
-          onClick={toggleTheme}
-          aria-label={
-            isLightMode ? "Switch to dark mode" : "Switch to light mode"
-          }
-          aria-pressed={isLightMode}
-          title={isLightMode ? "Switch to dark mode" : "Switch to light mode"}
-        >
-          {isLightMode ? (
-            <svg
-              key="moon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-               <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" />
-
-            </svg>
-          ) : (
-            <svg
-              key="sun"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-               <circle cx="12" cy="12" r="3.5" />
-                <path d="M12 2v2 M12 20v2 M4.93 4.93l1.42 1.42 M17.65 17.65l1.42 1.42 M2 12h2 M20 12h2 M4.93 19.07l1.42-1.42 M17.65 6.35l1.42-1.42" />
-              </svg>
-            )}
-        </button>
-
-
-        {/* MOBILE: dropdown navigation */}
-        <nav
-          className={`mobile-nav ${isMenuOpen ? "is-open" : ""}`}
-          id="mobile-navigation"
-          aria-label="Mobile navigation"
-          aria-hidden={!isMenuOpen}
-        >
-          {navigationLinks.map((link) => (
-            <a
-              key={link.href}
-                className={`mobile-nav-link ${
-                  link.href.startsWith("#") && activeSection === link.href.slice(1)
-                    ? "active"
-                    : ""
-                }`}
-              href={link.href}
-              aria-current={
-                activeSection === link.href.slice(1)
-                  ? "location"
-                  : undefined
-              }
-              tabIndex={isMenuOpen ? 0 : -1}
-              onClick={closeMenu}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-      </header>
+      <SiteHeader
+        activePage="home"
+        activeSection={activeSection}
+        onOpenCommandPalette={openPalette}
+      />
 
 
       {/* ==========================================
@@ -849,351 +569,145 @@ export default function Home() {
         </div>
       </section>
       
-      {/* MISSION 04: ABOUT ME + SKILLS & INTERESTS */}
-
-
-      <section className="about-skills-section" id="about">
-        {/* LEFT PANEL: ABOUT ME */}
-        <div className="about-panel motion-reveal">
-          <div className="about-copy">
-            <p className="section-eyebrow">ABOUT ME</p>
-
-            <h2>At a Glance</h2>
-
-            <p>
-              I&apos;m a Kenyan multipotentialite with a curious mind and a
-              deep love for art technology, storytelling, and innovation. I enjoy
-              building, learning, and creating — from writing and filmmaking
-              to coding and cybersecurity.
-            </p>
-
-            <p>
-              I believe in the power of ideas, the value of skills, and the
-              impact of telling African stories that matter.
-            </p>
-
-            <div className="about-traits">
-              <span><span aria-hidden="true">📍</span> Kenyan</span>
-              <span><span aria-hidden="true">✦</span> Creative</span>
-              <span><span aria-hidden="true">⚙</span> Problem Solver</span>
-              <span><span aria-hidden="true">♜</span> Lifelong Learner</span>
-            </div>
-
-            <div className="about-signature" aria-label="Calmey Crown">
-              <svg
-                className="about-crown"
-                viewBox="0 0 48 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M5 11L14 19L23 5L33 19L43 11L39 32H9L5 11Z"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M10 36H38"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <span>Calmey Crown</span>
-            </div>
-          </div>
-
-          
-          <div className="about-portrait-column">
-            <div className="about-portrait-placeholder">
-              <img
-                className="about-portrait-image"
-                src="/images/calmey-about.jpg"
-                alt="Calmey Crown"
-              />
-            </div>
-
-            <p className="about-portrait-caption">
-              The future belongs to those who build it.
-            </p>
-          </div>
+      {/* A compact bridge sends deeper biography and proof to their dedicated pages. */}
+      <section className="home-about-bridge motion-reveal" id="about" aria-labelledby="home-about-title">
+        <div className="home-about-copy">
+          <p className="section-eyebrow">A LITTLE ABOUT ME</p>
+          <h2 id="home-about-title">Many interests. One thoughtful practice.</h2>
+          <p>I’m Calmey Crown, a Kenyan creator and builder. I move between technology, African storytelling and creative work, learning by making things that can be shared.</p>
         </div>
-
-        {/* RIGHT PANEL : SKILLS & INTERESTS */}
-        <div className="skills-panel motion-reveal" id="skills">
-          <div className="skills-heading">
-            <p className="section-eyebrow">WHAT I DO</p>
-            <h2>Skills &amp; Interests</h2>
-            <p>
-              I&apos;m not just one thing. I&apos;m a blend of skills,
-              interests and passions — and I&apos;m always expanding.
-            </p>
-          </div>
-
-          <div className="skills-grid">
-            <article className="skill-card motion-reveal">
-             <SkillIcon name="python" className="skill-icon" />              
-             <h3>Python</h3>
-              <p>Programming</p>
-            </article>
-
-            <article className="skill-card motion-reveal">
-            <SkillIcon name="cybersecurity" className="skill-icon" />
-              <h3>Cybersecurity</h3>
-              <p>&amp; Ethical Hacking</p>
-            </article>
-
-            <article className="skill-card motion-reveal">
-              <SkillIcon name="web" className="skill-icon" />
-              <h3>Web Development</h3>
-              <p>Frontend &amp; Backend</p>
-            </article>
-
-            <article className="skill-card motion-reveal">
-              <SkillIcon name="filmmaking" className="skill-icon" />
-              <h3>Filmmaking</h3>
-              <p>&amp; Video Editing</p>
-            </article>
-
-            <article className="skill-card motion-reveal">
-              <SkillIcon name="audio" className="skill-icon" />
-              <h3>Voice Work</h3>
-              <p>&amp; Audio Production</p>
-            </article>
-
-            <article className="skill-card motion-reveal">
-              <SkillIcon name="music" className="skill-icon" />
-              <h3>Music &amp; Arts</h3>
-              <p>Music Talent &amp; Visual Arts</p>
-            </article>
-
-            <article className="skill-card motion-reveal">
-              <SkillIcon name="space" className="skill-icon" />
-              <h3>Space &amp; Astronomy</h3>
-            </article>
-
-            <article className="skill-card motion-reveal">
-              <SkillIcon name="writing" className="skill-icon" />
-              <h3>Writing</h3>
-              <p>&amp; Storytelling</p>
-            </article>
-          </div>
+        <div className="home-about-links">
+          <Link className="home-about-link" href="/about">Meet Calmey <span aria-hidden="true">↗</span></Link>
+          <Link className="home-about-link" href="/skills">Explore the skills behind the work <span aria-hidden="true">→</span></Link>
         </div>
       </section>
 
-
-      {/* ==========================================
-          MISSION 05: FEATURED PROJECTS
-          ========================================== */}
-
-
-
-      <section
-        className="projects-section"
-        id="projects"
-        aria-labelledby="projects-title"
-      >
+      {/* Cards come from the portfolio catalog so every highlight opens its full project record. */}
+      <section className="projects-section home-featured-work" id="projects" aria-labelledby="projects-title">
         <div className="projects-intro motion-reveal">
-          <p className="section-eyebrow">FEATURED PROJECTS</p>
-
-          <h2 id="projects-title">Things I’ve Built</h2>
-
-          <p>
-            From coding experiments to creative productions, here are a few
-            things I’m proud of.
-          </p>
-
-          <a className="projects-all-link" href="#contact">
-            View All Projects <span aria-hidden="true">→</span>
-          </a>
+          <p className="section-eyebrow">SELECTED WORK</p>
+          <h2 id="projects-title">Ideas taking shape.</h2>
+          <p>Published stories and early builds, with each project’s stage made clear.</p>
+          <Link className="projects-all-link" href="/projects">Explore all projects <span aria-hidden="true">→</span></Link>
         </div>
-
         <div className="projects-grid">
-          <article className="project-card motion-reveal">
-            <div className="project-image-wrap">
-              <img
-                className="project-image"
-                src="/images/project-summer.png"
-                alt="Summer, the debut novel by Calmey Crown"
-                loading="lazy"
-              />
-            </div>
-            <div className="project-card-content">
-              <h3>SUMMER (MY DEBUT NOVEL)</h3>
-              <p className="project-tags">Writing · Creativity</p>
-              <a
-                className="project-link"
-                href="https://www.kobo.com/ww/en/ebook/summer-257"
-                target="_blank"
-                rel="noreferrer"
-              >
-                View SUMMER <span aria-hidden="true">→</span>
-              </a>
-            </div>
-          </article>
-
-
-          <article className="project-card motion-reveal">
-            <div className="project-image-wrap">
-              <img
-                className="project-image"
-                src="/images/project-crown-narratives.jpg"
-                alt="Studio microphone ready for recording"
-                loading="lazy"
-              />
-            </div>
-            <div className="project-card-content">
-              <h3>CROWN NARRATIVES</h3>
-              <p className="project-tags">Filmmaking · Voice · Storytelling</p>
-              <a className="project-link" href="https://www.youtube.com/@crowncalmey" 
-              target="_blank" 
-              rel="noreferrer">
-                View Crown Narratives <span aria-hidden="true">→</span>
-              </a>
-            </div>
-          </article>
-
-
-          <article className="project-card motion-reveal">
-            <div className="project-image-wrap">
-              <img
-                className="project-image"
-                src="/images/project-odundo.avif"
-                alt="Cybersecurity workstation displaying code"
-                loading="lazy"
-              />
-            </div>
-            <div className="project-card-content">
-              <h3>ODUNDO SECURITY SYSTEM</h3>
-              <p className="project-tags">Python · Cybersecurity</p>
-              <a className="project-link" href="#contact">
-                View Project <span aria-hidden="true">→</span>
-              </a>
-            </div>
-          </article>
-
-          <article className="project-card motion-reveal">
-            <div className="project-image-wrap">
-              <img
-                className="project-image"
-                src="/images/project-space.jfif"
-                alt="Satellite orbiting above Earth"
-                loading="lazy"
-              />
-            </div>
-            <div className="project-card-content">
-              <h3>CROWN SPACE SHUTTLE / PROBE</h3>
-              <p className="project-tags">Python · Space · STEM</p>
-              <a className="project-link" href="#contact">
-                View Project <span aria-hidden="true">→</span>
-              </a>
-            </div>
-          </article>
-          
+          {featuredProjects.map((project) => (
+            <article className="project-card motion-reveal" key={project.id}>
+              <div className="project-image-wrap">
+                {project.image ? (
+                  <img className="project-image" src={project.image} alt={project.imageAlt ?? ""} loading="lazy" />
+                ) : (
+                  <div className="home-project-placeholder" aria-hidden="true">
+                    <span>{project.category}</span>
+                    <strong>{project.title}</strong>
+                  </div>
+                )}
+              </div>
+              <div className="project-card-content">
+                <p className="home-project-status">{project.status}</p>
+                <h3>{project.featuredTitle ?? project.title}</h3>
+                <p className="project-tags">{project.tags.slice(0, 3).join(" · ")}</p>
+                <Link
+                  className="project-link"
+                  href={project.id === "summer" ? "/summer" : `/projects#${project.id}`}
+                  onClick={() => track("Featured Project Clicked", { project: project.id })}
+                >
+                  Project details <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
-      
+      {/* New public milestones are edited as data, then surfaced here in date order. */}
+      <section className="home-latest-section" aria-labelledby="home-latest-title">
+        <div className="home-latest-heading motion-reveal">
+          <p className="section-eyebrow">THE LATEST</p>
+          <h2 id="home-latest-title">Fresh from the workbench.</h2>
+          <p>New art, episodes and meaningful project milestones, gathered in one place.</p>
+        </div>
 
-      
-      {/* ==========================================
-          MISSION 06: JOURNEY + FOCUS + CONTACT
-         ========================================== */}
-
-      <section
-        className="mission-hub"
-        aria-label="Journey, journey focus and contact"
-      >
-        {/* PANEL 1: MY JOURNEY */}
-        <div className="journey-panel motion-reveal" id="journey">
-          <div className="journey-copy">
-            <p className="section-eyebrow">MY JOURNEY</p>
-            <h2>The Bigger Picture</h2>
-
-            <p className="journey-description">
-              I’m building a future where technology, creativity and
-              education create real opportunities — for me, and for
-              others, especially young people in Africa.
-            </p>
-
-            <a className="journey-cta" href="#about">
-              Learn More About My Journey
-              <span aria-hidden="true">→</span>
-            </a>
+        {latestUpdates.length > 0 ? (
+          <div className="home-updates-grid">
+            {latestUpdates.map((update) => (
+              <article className="home-update-card motion-reveal" key={update.id}>
+                {update.image ? (
+                  <div className="home-update-image">
+                    <Image
+                      src={update.image}
+                      alt={update.imageAlt ?? ""}
+                      width={960}
+                      height={600}
+                      sizes="(max-width: 700px) 92vw, (max-width: 1050px) 45vw, 30vw"
+                    />
+                  </div>
+                ) : (
+                  <div className="home-update-art-placeholder" aria-hidden="true">
+                    <span>{update.kind}</span>
+                    <strong>{update.project}</strong>
+                  </div>
+                )}
+                <div className="home-update-copy">
+                  <div className="home-update-meta">
+                    <span>{update.kind}</span>
+                    {update.date ? (
+                      <time dateTime={update.date}>
+                        {new Date(`${update.date}T00:00:00Z`).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                          timeZone: "UTC",
+                        })}
+                      </time>
+                    ) : (
+                      <span>Latest</span>
+                    )}
+                  </div>
+                  <p className="home-update-project">{update.project}</p>
+                  <h3>{update.title}</h3>
+                  <p>{update.description}</p>
+                  {update.external ? (
+                    <a
+                      className="home-update-link"
+                      href={update.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => track("Portfolio Update Opened", { update: update.id })}
+                    >
+                      Open update <span aria-hidden="true">↗</span>
+                    </a>
+                  ) : (
+                    <Link
+                      className="home-update-link"
+                      href={update.href}
+                      onClick={() => track("Portfolio Update Opened", { update: update.id })}
+                    >
+                      Explore update <span aria-hidden="true">→</span>
+                    </Link>
+                  )}
+                  <div className="home-update-related-links" aria-label="Related portfolio pages">
+                    <span>Explore related</span>
+                    <Link href={`/projects#${update.projectId}`}>Project</Link>
+                    <Link href={`/skills#${update.skillId}`}>Skill</Link>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
-        </div>
+        ) : (
+          <div className="home-updates-empty motion-reveal" role="status">
+            <span className="home-updates-pulse" aria-hidden="true" />
+            <div>
+              <p className="section-eyebrow">NEXT UP</p>
+              <h3>The next update is taking shape.</h3>
+              <p>When a new artwork, Crown Narratives episode or project milestone is ready to share, it will appear here.</p>
+            </div>
+          </div>
+        )}
+      </section>
 
-        {/* PANEL 2: JOURNEY FOCUS */}
-        <div className="journey-focus-panel motion-reveal">
-          <p className="section-eyebrow">WHAT DRIVES ME</p>
-          <h2>My Focus</h2>
-
-          <ul className="journey-focus-list">
-            <li>
-              <span className="journey-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M8 8H5V5M5 5L10 10M16 16H19V19M19 19L14 14M14 5H19V10M19 5L14 10M10 14L5 19M5 19V14" />
-                </svg>
-              </span>
-              <span>Coding &amp; Automation</span>
-            </li>
-
-            <li>
-              <span className="journey-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="6" width="18" height="12" rx="2" />
-                  <path d="M7 6L12 11L17 6M12 11V18" />
-                </svg>
-              </span>
-              <span>Creative Media &amp; Filmmaking</span>
-            </li>
-
-            <li>
-              <span className="journey-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3L20 6V11C20 16 16.5 19.5 12 21C7.5 19.5 4 16 4 11V6L12 3Z" />
-                  <path d="M9 12L11 14L15 9" />
-                </svg>
-              </span>
-              <span>Cybersecurity &amp; Hacking</span>
-            </li>
-
-            <li>
-              <span className="journey-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="8" />
-                  <ellipse cx="12" cy="12" rx="3.5" ry="8" />
-                  <path d="M4.5 8H19.5M4.5 16H19.5" />
-                </svg>
-              </span>
-              <span>Space &amp; Exploration</span>
-            </li>
-
-            <li>
-              <span className="journey-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M3 9L12 4L21 9L12 14L3 9Z" />
-                  <path d="M6 11V16L12 20L18 16V11" />
-                </svg>
-              </span>
-              <span>Education &amp; Mentorship</span>
-            </li>
-
-            <li>
-              <span className="journey-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M10 18V5L20 3V16" />
-                  <circle cx="7" cy="18" r="3" />
-                  <circle cx="17" cy="16" r="3" />
-                </svg>
-              </span>
-              <span>Music &amp; Arts</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* PANEL 3: CONTACT */}
-        <div className="contact-panel motion-reveal" id="contact">
+      <section className="mission-hub home-contact" aria-label="Contact" id="contact">
+        <div className="contact-panel motion-reveal">
           <div className="contact-details">
             <p className="section-eyebrow">GET IN TOUCH</p>
             <h2>Let’s Work Together</h2>
@@ -1320,36 +834,7 @@ export default function Home() {
           MISSION 07: FOOTER
          ========================================== */}
 
-      <footer className="site-footer">
-        <a className="footer-brand" href="#home" aria-label="Calmey Crown home">
-          <svg viewBox="0 0 48 40" fill="none" aria-hidden="true">
-            <path d="M5 10L15 22L24 3L33 22L43 10L38 34H10L5 10Z" />
-            <path d="M10 37H38" />
-          </svg>
-          <span>CALMEY CROWN</span>
-        </a>
-
-        <div className="footer-signature">
-          <span>Space</span>
-          <span aria-hidden="true">•</span>
-          <span>Cybersecurity</span>
-          <span aria-hidden="true">•</span>
-          <span>STEM</span>
-        </div>
-
-        <nav className="footer-nav" aria-label="Footer navigation">
-          <a href="#home">Home</a>
-          <a href="/about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#journey">Journey</a>
-          <a href="#contact">Contact</a>
-        </nav>
-
-        <p className="footer-copyright">
-          © 2026 Calmey Crown. All Rights Reserved.
-        </p>
-      </footer>
+      <SiteFooter />
 
     </main>
   );
