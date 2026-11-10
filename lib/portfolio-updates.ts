@@ -20,6 +20,7 @@ export type PortfolioUpdate = {
 export const PORTFOLIO_UPDATES: PortfolioUpdate[] = [
   {
     id: "crown-narratives-digital-africa",
+    date: "2026-11-06",
     kind: "Episode",
     project: "Crown Narratives",
     projectId: "crown-narratives",
