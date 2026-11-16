@@ -1,6 +1,6 @@
 "use client";
 
-// Project cards emit only stable project IDs when a visitor opens published proof.
+// Project cards emit stable IDs, and the artwork strip uses the same full-size viewer as Skills.
 import Image from "next/image";
 import Link from "next/link";
 import { track } from "@vercel/analytics";
@@ -12,6 +12,7 @@ import { useTheme } from "@/components/ThemeProvider";
 import { PROJECTS } from "@/lib/portfolio-content";
 import type { ProjectCategory } from "@/lib/portfolio-content";
 import { useScrollReveal } from "@/components/useScrollReveal";
+import ArtworkGallery from "@/components/ArtworkGallery";
 
 const filters: Array<{ label: string; value: ProjectCategory | "All" }> = [
   { label: "Everything", value: "All" },
@@ -88,20 +89,7 @@ export default function ProjectsExperience() {
               key={project.id}
             >
               {project.gallery ? (
-                <div className="project-art-gallery" aria-label="Pencil art collection">
-                  {project.gallery.map((artwork) => (
-                    <figure key={artwork.src}>
-                      <Image
-                        src={artwork.src}
-                        alt={artwork.alt}
-                        width={700}
-                        height={960}
-                        sizes="(max-width: 700px) 42vw, (max-width: 1050px) 27vw, 16vw"
-                      />
-                      <figcaption>{artwork.title}</figcaption>
-                    </figure>
-                  ))}
-                </div>
+                <ArtworkGallery artworks={project.gallery} label="Pencil art collection" className="project-art-gallery" />
               ) : project.image ? (
                 <div className="portfolio-project-image">
                   <Image

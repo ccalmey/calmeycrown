@@ -133,7 +133,7 @@ export default function AboutExperience() {
             priority
             sizes="(max-width: 760px) 84vw, 38vw"
           />
-          <figcaption><span>Curiosity in motion</span><span>01 / 04</span></figcaption>
+          <figcaption><span>Am a student for life</span><span>01 / 04</span></figcaption>
         </figure>
         <span className="about-hero-index" aria-hidden="true">ABOUT&nbsp; / &nbsp;01</span>
       </section>

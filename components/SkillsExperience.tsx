@@ -1,13 +1,13 @@
 "use client";
 
 // This client page can record deliberate clicks on public proof without collecting visitor details.
-import Image from "next/image";
 import Link from "next/link";
 import { track } from "@vercel/analytics";
 import ProgressiveIntro from "@/components/ProgressiveIntro";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import SkillIcon from "@/components/SkillIcon";
+import ArtworkGallery from "@/components/ArtworkGallery";
 import { useTheme } from "@/components/ThemeProvider";
 import { PENCIL_ARTWORKS, SKILLS } from "@/lib/portfolio-content";
 import { useScrollReveal } from "@/components/useScrollReveal";
@@ -34,7 +34,7 @@ export default function SkillsExperience() {
 
       <section id="skills-content" className="portfolio-page-hero skills-page-hero" aria-labelledby="skills-page-title">
         <ProgressiveIntro
-          eyebrow="SKILLS · LEARNING · PRACTICE"
+          eyebrow="LEARNING · PRACTICE · MASTERY"
           titlePrefix="Skills shaped by "
           titleAccent="doing."
           description="A grounded look at what I’m learning, making and sharing right now—with real projects and creative work behind each interest."
@@ -43,7 +43,7 @@ export default function SkillsExperience() {
         />
         <div className="portfolio-hero-footnote">
           <span className="portfolio-live-dot" aria-hidden="true" />
-          <span>Proof over labels</span>
+          <span>Simply proven</span>
           <span aria-hidden="true">·</span>
           <span>Work in progress is marked honestly</span>
         </div>
@@ -56,7 +56,7 @@ export default function SkillsExperience() {
           <p>
             I started exploring pencil art in May 2025 and have been enjoying the process of
             developing it. Portraits, name art and landscapes give me room to study detail,
-            patience and expression.
+            patience and expression while gradually gravitating toward romanticism.
           </p>
           <div className="pencil-feature-note">
             <span>WHAT&apos;S HERE</span>
@@ -67,20 +67,8 @@ export default function SkillsExperience() {
             View the pencil art collection <span aria-hidden="true">→</span>
           </Link>
         </div>
-        <div className="pencil-feature-gallery" aria-label="Selected pencil art studies">
-          {PENCIL_ARTWORKS.slice(0, 3).map((artwork) => (
-            <figure key={artwork.src}>
-              <Image
-                src={artwork.src}
-                alt={artwork.alt}
-                width={720}
-                height={960}
-                sizes="(max-width: 700px) 28vw, 16vw"
-              />
-              <figcaption>{artwork.title}</figcaption>
-            </figure>
-          ))}
-        </div>
+        {/* The featured subset stays compact but can open each drawing as an original-size image. */}
+        <ArtworkGallery artworks={PENCIL_ARTWORKS.slice(0, 3)} label="Selected pencil art studies" className="pencil-feature-gallery" />
       </section>
 
       <section className="skills-proof-section" aria-labelledby="skills-proof-title">
@@ -134,7 +122,7 @@ export default function SkillsExperience() {
 
       <section className="skills-next-step" aria-labelledby="skills-next-title">
         <div>
-          <p className="section-eyebrow">MADE BY LEARNING IN PUBLIC</p>
+          <p className="section-eyebrow">MADE BY LEARNING</p>
           <h2 id="skills-next-title">The proof keeps growing.</h2>
           <p>Some work is published; some is still taking shape. I’ll add demos, build notes and new examples as they’re ready to share.</p>
         </div>

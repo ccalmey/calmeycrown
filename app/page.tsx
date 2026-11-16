@@ -523,7 +523,7 @@ export default function Home() {
           </p>
 
           <p className="hero-motto">
-            Part dreamer. Part builder. Always learning.
+            Part dreamer. Part builder. A student for life.
           </p>
 
           <a className="hero-cta" href="#about">
