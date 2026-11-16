@@ -31,7 +31,7 @@ export const PORTFOLIO_UPDATES: PortfolioUpdate[] = [
     href: "https://youtu.be/K6mvg6o6W54?si=G7gFGpMnVNH0474W",
     external: true,
     // Match the real filename in public/images/projects/crown-narratives (including capitalization).
-    image: "/images/projects/crown-narratives/Benin-Kingdom.png",
+    image: "/images/projects/crown-narratives/benin.png",
     imageAlt: "Crown Narratives episode artwork for Benin, The African Kingdom That Mastered Bronze.",
   },
 ];
