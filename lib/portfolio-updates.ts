@@ -14,24 +14,24 @@ export type PortfolioUpdate = {
   external?: boolean;
   image?: string;
   imageAlt?: string;
-};
+}; 
 
 // The homepage sorts these records by date and displays the three newest public updates.
 export const PORTFOLIO_UPDATES: PortfolioUpdate[] = [
   {
     id: "crown-narratives-digital-africa",
-    date: "2026-06-13",
+    date: "2026-11-20",
     kind: "Episode",
     project: "Crown Narratives",
     projectId: "crown-narratives",
     skillId: "filmmaking",
-    title: "Benin | The African Kingdom That Mastered Bronze",
+    title: "AFRICA’S FOODS THAT CONQUERED THE WORLD",
     description:
-      "Before the works filled museums around the world.",
-    href: "https://youtu.be/K6mvg6o6W54?si=G7gFGpMnVNH0474W",
+      "African food traditions and ingredients travel through trade, migration, and diaspora—and can become global favourites while their origins are overlooked.",
+    href: "https://youtu.be/40jMvlmt8sE?si=oUl32cOLpk_8il8f",
     external: true,
     // Match the real filename in public/images/projects/crown-narratives (including capitalization).
-    image: "/images/projects/crown-narratives/benin.png",
-    imageAlt: "Crown Narratives episode artwork for Benin, The African Kingdom That Mastered Bronze.",
+    image: "/images/projects/crown-narratives/Africa.png",
+    imageAlt: "Crown Narratives episode artwork for AFRICA’S FOODS THAT CONQUERED THE WORLD.",
   },
 ];

@@ -164,7 +164,7 @@ export const PROJECTS: {
     proof: "Public YouTube channel",
     href: "https://www.youtube.com/@crowncalmey",
     external: true,
-    image: "/images/projects/crown-narratives/benin.png",
+    image: "/images/projects/crown-narratives/africa.png",
     imageAlt: "Digital Africa episode artwork from Crown Narratives",
     tags: ["Documentary", "Short films", "African stories"],
   },

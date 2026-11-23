@@ -34,12 +34,12 @@ const featuredArtwork = PENCIL_ARTWORKS[0];
 // Edit the dek, excerpt, or body text below when adding more background to these first sample posts.
 export const BLOG_POSTS: BlogPost[] = [
   {
-    slug: "benin-kingdom-bronze",
+    slug: "AFRICA’S FOODS THAT CONQUERED THE WORLD",
     category: "Stories",
     title: latestUpdate?.title ?? "Crown Narratives: latest episode",
     dek: latestUpdate?.description ?? "A new story from Crown Narratives.",
     excerpt:
-      "Long before these works filled museums around the world, they were created by skilled artists for the royal court of the Kingdom of Benin, centred on Benin City in present-day Nigeria. In this Crown Narratives documentary, we explore the kingdom, its specialist metalworkers, its connections with the wider world, the British invasion of 1897, and the ongoing debate over the return of the Benin Bronzes. The term “Benin Bronzes” is commonly used for a range of works, many made from brass and other materials. These objects are more than masterpieces, they preserve histories of power, culture, artistry and loss.",
+      "Coffee from Ethiopia. Pepper-rich sauces. Rice traditions that crossed oceans. Okra and other ingredients woven into cuisines across the world. African food stories are stories of agriculture, trade, migration, creativity, and memory. In this episode of Crown Narratives, we trace how African crops, cooking knowledge, and food traditions travelled—and how communities transformed ingredients from elsewhere into beloved local flavours. We also explore the difficult history of forced migration, the African diaspora, and the question of who gets credit when food becomes popular. Africa is not one cuisine. It is a vast collection of food cultures, each with its own ingredients, techniques, histories, and innovations.",
     image: latestUpdate?.image ?? "/images/hero-cover.png",
     imageAlt: latestUpdate?.imageAlt ?? "Artwork for the latest Crown Narratives episode",
     publishedAt: latestUpdate?.date,
