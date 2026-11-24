@@ -22,7 +22,7 @@ export type BlogPost = {
 
 // Redirect the earlier display-title URL to the stable slug so previously shared links keep working.
 export const LEGACY_BLOG_SLUG_REDIRECTS: Record<string, string> = {
-  "AFRICA’S FOODS THAT CONQUERED THE WORLD": "africas-foods-that-conquered-the-world",
+  "Africa’s foods that conquered the world": "africas-foods-that-conquered-the-world",
 };
 
 // Pull the lead story from the homepage update feed so the two places stay in sync.
