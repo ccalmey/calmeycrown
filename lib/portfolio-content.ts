@@ -164,7 +164,8 @@ export const PROJECTS: {
     proof: "Public YouTube channel",
     href: "https://www.youtube.com/@crowncalmey",
     external: true,
-    image: "/images/projects/crown-narratives/africa.png",
+    // Keep filename capitalization identical to public/; Vercel's Linux filesystem is case-sensitive.
+    image: "/images/projects/crown-narratives/Africa.png",
     imageAlt: "Digital Africa episode artwork from Crown Narratives",
     tags: ["Documentary", "Short films", "African stories"],
   },
