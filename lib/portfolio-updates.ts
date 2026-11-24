@@ -32,6 +32,6 @@ export const PORTFOLIO_UPDATES: PortfolioUpdate[] = [
     external: true,
     // Match the real filename in public/images/projects/crown-narratives (including capitalization).
     image: "/images/projects/crown-narratives/Africa.png",
-    imageAlt: "Crown Narratives episode artwork for AFRICA’S FOODS THAT CONQUERED THE WORLD.",
+    imageAlt: "Crown Narratives episode artwork for Africa’s foods that conquered the world.",
   },
 ];
