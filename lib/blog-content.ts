@@ -20,6 +20,11 @@ export type BlogPost = {
   body: { heading?: string; paragraphs: string[] }[];
 };
 
+// Redirect the earlier display-title URL to the stable slug so previously shared links keep working.
+export const LEGACY_BLOG_SLUG_REDIRECTS: Record<string, string> = {
+  "AFRICA’S FOODS THAT CONQUERED THE WORLD": "africas-foods-that-conquered-the-world",
+};
+
 // Pull the lead story from the homepage update feed so the two places stay in sync.
 const latestUpdate = [...PORTFOLIO_UPDATES].sort(
   (first, second) => (second.date ?? "").localeCompare(first.date ?? "")
@@ -34,7 +39,8 @@ const featuredArtwork = PENCIL_ARTWORKS[0];
 // Edit the dek, excerpt, or body text below when adding more background to these first sample posts.
 export const BLOG_POSTS: BlogPost[] = [
   {
-    slug: "AFRICA’S FOODS THAT CONQUERED THE WORLD",
+    // Keep route slugs lowercase and URL-safe; the visible title stays in the title field below.
+    slug: "africas-foods-that-conquered-the-world",
     category: "Stories",
     title: latestUpdate?.title ?? "Crown Narratives: latest episode",
     dek: latestUpdate?.description ?? "A new story from Crown Narratives.",

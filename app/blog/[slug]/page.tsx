@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import BlogArticleExperience from "@/components/BlogArticleExperience";
-import { BLOG_POSTS } from "@/lib/blog-content";
+import { BLOG_POSTS, LEGACY_BLOG_SLUG_REDIRECTS } from "@/lib/blog-content";
 
 // Pre-render each known article so the initial issue loads as a fast static page.
 export function generateStaticParams() {
@@ -45,6 +45,10 @@ export default async function BlogArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  // Preserve the old title-based article URL while routing readers to its canonical safe slug.
+  const canonicalSlug = LEGACY_BLOG_SLUG_REDIRECTS[slug];
+  if (canonicalSlug) permanentRedirect(`/blog/${canonicalSlug}`);
+
   const post = BLOG_POSTS.find((entry) => entry.slug === slug);
   if (!post) notFound();
   return <BlogArticleExperience post={post} />;

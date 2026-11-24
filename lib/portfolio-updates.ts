@@ -25,7 +25,7 @@ export const PORTFOLIO_UPDATES: PortfolioUpdate[] = [
     project: "Crown Narratives",
     projectId: "crown-narratives",
     skillId: "filmmaking",
-    title: "AFRICA’S FOODS THAT CONQUERED THE WORLD",
+    title: "Africa’s foods that conquered the world",
     description:
       "African food traditions and ingredients travel through trade, migration, and diaspora—and can become global favourites while their origins are overlooked.",
     href: "https://youtu.be/40jMvlmt8sE?si=oUl32cOLpk_8il8f",
